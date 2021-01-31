@@ -9,13 +9,13 @@ pns_deflator(data_pns, deflator.file)
 \arguments{
 \item{data_pns}{A tibble of PNS microdata read with \code{read_pns} function.}
 
-\item{deflator.file}{The deflator file for selected survey available on official website: (select the deflator zip file) - ftp://ftp.ibge.gov.br/PNS/Documentacao_Geral/.}
+\item{deflator.file}{The deflator file for selected survey available on official website: (select the deflator zip file) - \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/}.}
 }
 \value{
 A tibble with the data provided from PNS survey and the deflator variable added for use.
 }
 \description{
-This function adds deflator variable to PNS microdata. For deflation of income variables, the documentation provided through the following address must be used: ftp://ftp.ibge.gov.br/PNS/Documentacao_Geral/PNSIBGE_Deflator.pdf.
+This function adds deflator variable to PNS microdata. For deflation of income variables, the documentation provided through the following address must be used: \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/PNSIBGE_Deflator.pdf}.
 }
 \note{
 For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.

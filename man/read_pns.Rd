@@ -7,11 +7,11 @@
 read_pns(microdata, input_txt, vars = NULL)
 }
 \arguments{
-\item{microdata}{A text file containing microdata from PNS survey, available on official website: (select a microdata file, according to the appropriated year, microdata folder and then, inside, data) - ftp://ftp.ibge.gov.br/PNS/.}
+\item{microdata}{A text file containing microdata from PNS survey, available on official website: (select a microdata file, according to the appropriated year, microdata folder and then, inside, data) - \url{https://ftp.ibge.gov.br/PNS/}.}
 
-\item{input_txt}{A text file, related to the microdata, containing the input script for SAS, available on official website: (select the dictionary and input zip file, according to the appropriated year, microdata folder and then, inside, documentation) - ftp://ftp.ibge.gov.br/PNS/.}
+\item{input_txt}{A text file, related to the microdata, containing the input script for SAS, available on official website: (select the dictionary and input zip file, according to the appropriated year, microdata folder and then, inside, documentation) - \url{https://ftp.ibge.gov.br/PNS/}.}
 
-\item{vars}{Vector of variable names to be kept for analysys. Default is to keep all variables.}
+\item{vars}{Vector of variable names to be kept for analysis. Default is to keep all variables.}
 }
 \value{
 A tibble with selected variables of the microdata, including the necessary survey design ones.

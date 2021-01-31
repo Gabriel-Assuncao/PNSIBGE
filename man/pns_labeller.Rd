@@ -9,7 +9,7 @@ pns_labeller(data_pns, dictionary.file)
 \arguments{
 \item{data_pns}{A tibble of PNS microdata read with \code{read_pns} function.}
 
-\item{dictionary.file}{The dictionary file for selected survey available on official website: (select the dictionary and input zip file, according to the appropriated year, microdata folder and then, inside, documentation) - ftp://ftp.ibge.gov.br/PNS/.}
+\item{dictionary.file}{The dictionary file for selected survey available on official website: (select the dictionary and input zip file, according to the appropriated year, microdata folder and then, inside, documentation) - \url{https://ftp.ibge.gov.br/PNS/}.}
 }
 \value{
 A tibble with the data provided from PNS survey and its categorical variables as factors with related labels.

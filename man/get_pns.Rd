@@ -22,7 +22,7 @@ get_pns(
 
 \item{anthropometry}{Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019.}
 
-\item{vars}{Vector of variable names to be kept for analysys. Default is to keep all variables.}
+\item{vars}{Vector of variable names to be kept for analysis. Default is to keep all variables.}
 
 \item{labels}{Logical value. If \code{TRUE}, categorical variables will presented as factors with labels corresponding to the survey's dictionary.}
 

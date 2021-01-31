@@ -1,237 +1,694 @@
-/* PROGRAMA DE LEITURA EM SAS DO ARQUIVO DE MICRODADOS DA PNAD CONTÍNUA */
+/* PROGRAMA DE LEITURA EM SAS DO ARQUIVO DE MICRODADOS DA PNS 2019 */
 
-/* Obs.1: As duas primeiras posições da UPA (Unidade Primária de Amostragem) são o código da UF (Unidade da Federação)
+/* Obs.1: As duas primeiras posições da UPA_PNS (Unidade Primária de Amostragem) são o código da UF (Unidade da Federação)
 
-   Obs.2: Ajuste o endereço do arquivo \PNADC_xxxx.txt no comando INFILE */
-
-
-data pnadc_xxxxxx;
-infile "...\Dados\PNADC_xxxxxx.txt" /* PROGRAMA DE LEITURA EM SAS DO ARQUIVO DE MICRODADOS DA PNAD CONTÍNUA */
-
-/* Obs.1: As duas primeiras posições da UPA (Unidade Primária de Amostragem) são o código da UF (Unidade da Federação)
-
-   Obs.2: Ajuste o endereço do arquivo \PNADC_xxxx.txt no comando INFILE */
+   Obs.2: Ajuste o endereço do arquivo \PNS_2019.txt no comando INFILE */
 
 
-data pnadc_xxxxxx;
-infile "...\Dados\PNADC_xxxxxx.txt" lrecl=500 Missover;
-input
-@0001 V0020      $4.    /* Ano de referência */
-@0005 Trimestre      $1.    /* Trimestre de referência */
-@0006 V0001      $2.    /* Unidade da Federação */
-@0008 Capital      $2.    /* Município da Capital */
-@0010 RM_RIDE      $2.    /* Reg. Metr. e Reg. Adm. Int. Des. */
-@0012 UPA_PNS      $9.    /* Unidade Primária de Amostragem */
-@0021 V0024      $7.    /* Estrato */
-@0028 V0006_PNS      $2.    /* Número de seleção do domicílio */
-@0030 V1014      $2.    /* Painel */
-@0032 V1016      $1.    /* Número da entrevista no domicílio */
-@0033 V1022      $1.    /* Tipo de situação da região */
-@0034 V1023      $1.    /* Tipo de área */
-@0035 V0028       15.    /* Peso SEM pós estratificação */
-@0050 V00281       15.    /* Peso COM pós estratificação */
-@0065 V00282       9.    /* Projeção da população */
-@0074 V00283      $3.    /* Domínios de projeção */
-@0077 V2001       2.    /* Número de pessoas no domicílio */
-@0079 C00301      $2.    /* Número de ordem */
-@0081 V2005      $2.    /* Condição no domicílio */
-@0083 V2007      $1.    /* Sexo */
-@0084 V2008      $2.    /* Dia de nascimento */
-@0086 V20081      $2.    /* Mês de nascimento */
-@0088 V20082      $4.    /* Ano de nascimento */
-@0092 V2009       3.    /* Idade na data de referência */
-@0095 V2010      $1.    /* Cor ou raça */
-@0096 V3001      $1.    /* Sabe ler e escrever */
-@0097 V3002      $1.    /* Frequenta escola */
-@0098 V3002A      $1.    /* A escola que ... frequenta é de */
-@099 V3003      $2.    /* Qual é o curso que frequenta */
-@0101 V3003A      $2.    /* Qual é o curso que frequenta */
-@0103 V3004      $1.    /* Duração deste curso que requenta */
-@0104 V3005      $1.    /* Curso que frequenta é seriado */
-@0105 V3005A      $1.    /* Curso que freq é organizado em: */
-@0106 V3006      $2.    /* Qual é o ano/série que frequenta */
-@0108 V3006A      $1.    /* Qual é a etapa que frequenta */
-@0109 V3007      $1.    /* Concluiu outro curso de graduação */
-@0110 V3008      $1.    /* Anteriormente frequentou escola */
-@0111 V3009      $2.    /* Curso mais elevado que frequentou */
-@0113 V3009A      $2.    /* Curso mais elevado que frequentou */
-@0115 V3010      $1.    /* Duração do curso que frequentou */
-@0116 V3011      $1.    /* Curso quefrequentou era seriado */
-@0117 V3011A      $1.    /* Curso que freq é organizado em: */
-@0118 V3012      $1.    /* Aprovado na prim. série do curso */
-@0119 V3013      $2.    /* Último ano/série que concluiu */
-@0121 V3013A      $1.    /* Qual é a etapa que frequentou */
-@0122 V3013B      $1.    /* Cursou os anos iniciais deste curso */
-@0123 V3014      $1.    /* Concluiu o curso que frequentou */
-@0124 V4001      $1.    /* Trabalhou 1 hr em ativ. remunerd. */
-@0125 V4002      $1.    /* Trabalhou 1 hr em produtos etc... */
-@0126 V4003      $1.    /* Fez algum bico pelo menos de 1 hr */
-@0127 V4004      $1.    /* Ajudou sem receber no domic. 1 hr */
-@0128 V4005      $1.    /* Afastado trabalho remunerado */
-@0129 V4006      $1.    /* Motivo de estar afastado */
-@0130 V4006A      $1.    /* Motivo de estar afastado */
-@0131 V4007      $1.    /* Durante afastameno recebia pagam. */
-@0132 V4008      $1.    /* Quanto tempo que estava afastado */
-@0133 V40081      $2.    /* Tempo de afastamenento até 1 ano */
-@0135 V40082      $2.    /* Tempo de afastamen. de 1 a 2 anos */
-@0137 V40083      $2.    /* Tempo de afastamen. mais d 2 anos */
-@0139 V4009      $1.    /* Quantos trabalhos tinhana semana */
-@0140 V4010      $4.    /* Ocupação no trab. principal */
-@0144 V4012      $1.    /* Posição na ocupação */
-@0145 V40121      $1.    /* Tipo trabalhador não remunerado */
-@0146 V4013      $5.    /* Atividade no trab. principal */
-@0151 V40132      $1.    /* Seção da atividade */
-@0152 V40132A      $1.    /* Seção da atividade */
-@0153 V4014      $1.    /* Esse trabalho era na área */
-@0154 V4015      $1.    /* Teve ajuda de pelo menos um trabalhador não remunerado */
-@0155 V40151      $1.    /* Qnts trabalhadores não remunerados */
-@0156 V401511      $1.    /* 1 a 5 trabalhadores não remunerados */
-@0157 V401512      $2.    /* 6 a 10 trabalhadores não remunerados */
-@0159 V4016      $1.    /* Qnts empregados trabalhavam nesse negócio/empresa*/
-@0160 V40161      $1.    /* 1 a 5 empregados */
-@0161 V40162      $2.    /* 6 a 10 empregados */
-@0163 V40163      $2.    /* 11 a 50 empregados */
-@0165 V4017      $1.    /* Tinha pelo menos um sócio que trab. nesse negócio/empresa*/
-@0166 V40171      $1.    /* Quantos sócios */
-@0167 V401711      $1.    /* 1 a 5 sócios */
-@0168 V4018      $1.    /* Qnts pessoas trabalhavam nesse negócio/empresa */
-@0169 V40181      $1.    /* 1 a 5pessoas */
-@0170 V40182      $2.    /* 6 a 10pessoas */
-@0172 V40183      $2.    /* 11 a 50pessoas */
-@0174 V4019      $1.    /* Negócio/empresa registrado no CNPJ*/
-@0175 V4020      $1.    /* Em que tipo de local funcionava esse negócio/empresa*/
-@0176 V4021      $1.    /* Exercia o trabalho em estabelecimento desse negócio/empresa*/ 
-@0177 V4022      $1.    /* Onde exercia normalmente esse trabalho*/
-@0178 V4024      $1.    /* Serv. domést. em mais de 1 domic. */
-@0179 V4025      $1.    /* Contratado como empreg. temporário*/
-@0180 V4026      $1.    /* Era contratado somente por pessoa responsável pelo negócio */
-@0181 V4027      $1.    /* Era contratado somente por intermediário */
-@0182 V4028      $1.    /* Servidor público estatutário */
-@0183 V4029      $1.    /* Carteira de trabalho assinada */
-@0184 V4032      $1.    /* Contribuinte de instit. d previd. */
-@0185 V4033      $1.    /* Rendimento habitual var. auxil. */
-@0186 V40331      $1.    /* Rendimento habitual em dinheiro */
-@0187 V403311      $1.    /* Faixa do valor do rendimento hab. */
-@0188 V403312       8.    /* Valor do rend. hab. em dinheiro */
-@0196 V40332      $1.    /* Rendimento habitual em produtos */
-@0197 V403321      $1.    /* Faixa do valor do rendimento hab. */
-@0198 V403322       8.    /* Valor do rend. hab. em produtos */
-@0206 V40333      $1.    /* Rendimento habitual em benefícios */
-@0207 V403331      $1.    /* Tipo rend. habitual em benefícios */
-@0208 V4034      $1.    /* Rendimento efetivo var. auxil. */
-@0209 V40341      $1.    /* Rendimento efetivo em dinheiro */
-@0210 V403411      $1.    /* Faixa do valor do rendimento efe. */
-@0211 V403412       8.    /* Valor do rend. efe. em dinheiro */
-@0219 V40342      $1.    /* Rendimento efetivo em produtos */
-@0220 V403421      $1.    /* Faixa do valor do rendimento efe. */
-@0221 V403422       8.    /* Valor do rend. efe. em produtos */
-@0229 V4039       3.    /* Hrs habituais no trab. princ. */
-@0232 V4039C       3.    /* Hrs efetivas no trab. princ. */
-@0235 V4040      $1.    /* Tempo que estava nesse trabalho */
-@0236 V40401       2.    /* De 1 mês a menos de 1 ano */
-@0238 V40402       2.    /* De 1 ano a menos de 2 anos */
-@0240 V40403       2.    /* De 2 anos ou mais tempo */
-@0242 V4041      $4.    /* Ocupação no trab. secundário */
-@0246 V4043      $1.    /* Posição na ocupação */
-@0247 V40431      $1.    /* Tipo trabalhador não remunerado */
-@0248 V4044      $5.    /* Atividade no trab. secundário */
-@0253 V4045      $1.    /* Esse trabalho era na área */
-@0254 V4046      $1.    /* Negócio/empresa registrado no CNPJ*/
-@0255 V4047      $1.    /* Servidor público estatutário */
-@0256 V4048      $1.    /* Carteira de trabalho assinada */
-@0257 V4049      $1.    /* Contribuinte de instit. d previd. */
-@0258 V4050      $1.    /* Rendimento habitual var. auxil. */
-@0259 V40501      $1.    /* Rendimento habitual em dinheiro */
-@0260 V405011      $1.    /* Faixa do valor do rendimento hab. */
-@0261 V405012       8.    /* Valor do rend. hab. em dinheiro */
-@0269 V40502      $1.    /* Rendimento habitual em produtos */
-@0270 V405021      $1.    /* Faixa do valor do rendimento hab. */
-@0271 V405022       8.    /* Valor do rend. hab. em produtos */
-@0279 V40503      $1.    /* Rendimento habitual em benefícios */
-@0280 V405031      $1.    /* Tipo rend. habitual em benefícios */
-@0281 V4051      $1.    /* Rendimento efetivo var. auxil. */
-@0282 V40511      $1.    /* Rendimento efetivo em dinheiro */
-@0283 V405111      $1.    /* Faixa do valor do rendimento efe. */
-@0284 V405112       8.    /* Valor do rend. efe. em dinheiro */
-@0292 V40512      $1.    /* Rendimento efetivo em produtos */
-@0293 V405121      $1.    /* Faixa do valor do rendimento efe. */
-@0294 V405122       8.    /* Valor do rend. efe. em produtos */
-@0302 V4056       3.    /* Hrs habituais no trab. secun. */
-@0305 V4056C       3.    /* Hrs efetivas no trab. secun. */
-@0308 V4057      $1.    /* Contribuinte de instit. d previd. */
-@0309 V4058      $1.    /* Rendimento habitual var. auxil. */
-@0310 V40581      $1.    /* Rendimento habitual em dinheiro */
-@0311 V405811      $1.    /* Faixa do valor do rendimento hab. */
-@0312 V405812       8.    /* Valor do rend. hab. em dinheiro */
-@0320 V40582      $1.    /* Rendimento habitual em produtos */
-@0321 V405821      $1.    /* Faixa do valor do rendimento hab. */
-@0322 V405822       8.    /* Valor do rend. hab. em produtos */
-@0330 V40583      $1.    /* Rendimento habitual em benefícios */
-@0331 V405831      $1.    /* Tipo rend. habitual em benefícios */
-@0332 V40584      $1.    /* Não remunerado */
-@0333 V4059      $1.    /* Rendimento efetivo var. auxil. */
-@0334 V40591      $1.    /* Rendimento efetivo em dinheiro */
-@0335 V405911      $1.    /* Faixa do valor do rendimento efe. */
-@0336 V405912       8.    /* Valor do rend. efe. em dinheiro */
-@0344 V40592      $1.    /* Rendimento efetivo em produtos */
-@0345 V405921      $1.    /* Faixa do valor do rendimento efe. */
-@0346 V405922       8.    /* Valor do rend. efe. em produtos */
-@0354 V4062       3.    /* Hrs habituais no(s) outro(s) trab.*/
-@0357 V4062C       3.    /* Hrs efetivas no(s) outro(s) trab .*/
-@0360 V4063      $1.    /* Gostaria trabalhar + hrs efetivas */
-@0361 V4063A      $1.    /* Gostaria trabalhar + hrs habituais*/
-@0362 V4064      $1.    /* Dispon. trabalhar + hrs efetivas */
-@0363 V4064A      $1.    /* Dispon. trabalhar + hrs habituais */
-@0364 V4071      $1.    /* Providência p/ conseg. trab.(30d) */
-@0365 V4072      $2.    /* Principal provid. p/conseg. trab. */
-@0367 V4072A      $1.    /* Principal provid. p/conseg. trab. */
-@0368 V4073      $1.    /* Gostaria de ter trabalhado */
-@0369 V4074      $1.    /* Motivo de não ter tomado provid. */
-@0370 V4074A      $2.    /* Motivo de não ter tomado provid. */
-@0372 V4075A      $1.    /* Tempo em que irá começar o trab. */
-@0373 V4075A1      $2.    /* Meses em que irá começar o trab. */
-@0375 V4076      $1.    /* Tempo tentando conseguir trabalho */
-@0376 V40761       2.    /* Tempo tentando trab. 1 mes-1 ano */
-@0378 V40762       2.    /* Tempo tentando trab. 1 ano-2 anos */
-@0380 V40763       2.    /* Tempo tentando trab. + de 2 anos */
-@0382 V4077      $1.    /* Poderia ter começado a trabalhar */
-@0383 V4078      $1.    /* Motivo p/ñ querer/começar a trab. */
-@0384 V4078A      $1.    /* Motivo p /ñ querer/começar a trab. */
-@0385 V4082      $1.    /* Trab por pelo menos 1 hora em 1 ano*/
-@0386 VD2002      $2.    /* Condição no domicílio */
-@0388 VD2003       2.    /* Número de componentes do domic. */
-@0390 VD2004      $1.    /* Espécie da unidade doméstica*/
-@0391 VD3004      $1.    /* Nível de instrução mais elevado alcançado (5 anos ou mais de idade) */
-@0392 VD3005      $2.    /* Anos de estudo (5 anos ou mais de idade) para fundamental de 9 anos */
-@0394 VD3006      $1.    /* Grupamento de anos de estudo (pessoas de 5 anos ou mais de idade) para fundamental de 9 anos */
-@0395 VD4001      $1.    /* Condição em relação força d trab. */
-@0396 VD4002      $1.    /* Condição de ocupação */
-@0397 VD4003      $1.    /* Força de trabalho potencial */
-@0398 VD4004      $1.    /* Subocupação por insuficiên. de hrs efet*/
-@0399 VD4004A      $1.    /* Subocupação por insuficiên. de hrs hab*/
-@0400 VD4005      $1.    /* Pessoas desalentadas */
-@0401 VD4007      $1.    /* Posição na ocupação trab. princ. */
-@0402 VD4008      $1.    /* Posição na ocupação trab. princ. */
-@0403 VD4009      $2.    /* Posição na ocupação trab. princ. */
-@0405 VD4010      $2.    /* Grupamen. d ativid. trab. princ. */
-@0407 VD4011      $2.    /* Grupamen. ocupacion. trab. Princ. */
-@0409 VD4012      $1.    /* Contrib. instit. previd. qq trab. */
-@0410 VD4013      $1.    /* Faixa hrs habituais em todos trab. */
-@0411 VD4014      $1.    /* Faixa hrs efetivas em todos trab. */
-@0412 VD4015      $1.    /* Tipo d remuneração trab. princ. */
-@0413 VD4016       8.    /* Rendim. habitual trab. princ. */
-@0421 VD4017       8.    /* Rendim. efetivo trab. princ. */
-@0429 VD4018      $1.    /* Tipo d remuneração em qq trabalho */
-@0430 VD4019       8.    /* Rendim. habitual qq trabalho */
-@0438 VD4020       8.    /* Rendim. efetivo qq trabalho */
-@0446 VD4023      $1.    /* Pq ñ proc./ñ gost./ñ disp.p/trab. */
-@0447 VD4030      $1.    /* Pq ñ proc./ñ gost./ñ disp.p/trab. */
-@0448 VD4031       3.    /* Hrs habituais em todos trab. */
-@0451 VD4032       3.    /* Hrs efetivas no trab. princ. */
-@0454 VD4033       3.    /* Hrs efetivas no trab. secun. */
-@0457 VD4034       3.    /* Hrs efetivas no(s) outro(s) trab .*/
-@0460 VD4035       3.    /* Hrs efetivas em todos trab. */
-@0463 VD4036      $1.    /* Faixa hrs habituais trab. princ. */
-@0464 VD4037      $1.    /* Faixa hrs efetivas trab. princ. */
+data PNS_2019;
+INFILE '...\dados\PNS_2019.txt' LRECL=1087 missover; 
+INPUT   
+@00001	V0001		$2.		/*Unidade da Federação*/
+@00003	V0024		$7.		/*Estrato*/
+@00010	UPA_PNS		$9.		/*UPA*/
+@00019	V0006_PNS	$4.		/*Número de ordem do domicílio na PNS*/
+@00023	V0015		$2.		/*Tipo da entrevista*/
+@00025	V0020		$4.		/*Ano de referência*/
+@00029	V0022		2.		/*Total de moradores*/
+@00031	V0026		$1.		/*Tipo de situação censitária*/
+@00032	V0031		$1.		/*Tipo de área*/     
+@000033	V0025A		$1.    
+@000034	V0025B		$1.    
+@000035	A001		$1.      
+@000036	A002010		$1.    
+@000037	A003010		$1.    
+@000038	A004010		$1.    
+@000039	A01001		2.    
+@000041	A011		2.      
+@000043	A005010		$1.    
+@000044	A005012		$1.    
+@000045	A00601		$1.    
+@000046	A009010		$1.    
+@000047	A01401		2.    
+@000049	A01402		2.    
+@000051	A01403		$1.    
+@000052	A01501		$1.    
+@000053	A016010		$1.    
+@000054	A018011		$1.    
+@000055	A018012		2.    
+@000057	A018013		$1.    
+@000058	A018014		$2.    
+@000060	A018015		$1.    
+@000061	A018016		2.    
+@000063	A018017		$1.    
+@000064	A018018		2.    
+@000066	A018019		$1.    
+@000067	A018020		2.    
+@000069	A018021		$1.    
+@000070	A018022		2.    
+@000072	A018023		$1.    
+@000073	A018024		2.    
+@000075	A018025		$1.    
+@000076	A018026		2.    
+@000078	A018027		$1.    
+@000079	A018028		2.    
+@000081	A01901		$1.    
+@000082	A02101		$1.    
+@000083	A02102		2.    
+@000085	A02201		$1.    
+@000086	A02305		2.    
+@000088	A02306		2.    
+@000090	A02307		2.    
+@000092	A02308		2.    
+@000094	A02401		2.    
+@000096	A02402		2.    
+@000098	B001		$1.      
+@000099	B002		$1.      
+@000100	B003		$1.    
+@000101	B004		$1.    
+@000102	C001		2.    
+@000104	C00301		$2.  
+@000106	C004		$2.    
+@000108	C006		$1.    
+@000109	C00701		2.  
+@000111	C00702		2.  
+@000113	C00703		4.  
+@000117	C008		3.    
+@000120	C009		$1.    
+@000121	C01001		$1.  
+@000122	C010010		$2.  
+@000124	C013		$1.    
+@000125	C014		$1.    
+@000126	C015		$1.    
+@000127	C016		$1.    
+@000128	C017		$1.    
+@000129	C018		$1.    
+@000130	C01801		$3.  
+@000133	C011		$1.    
+@000134	C012		$1.    
+@000135	D001		$1.    
+@000136	D00201		$1.  
+@000137	D00202		$1.  
+@000138	D00301		$2.  
+@000140	D00501		$1.  
+@000141	D006		$2.    
+@000143	D00601 		$1.  
+@000144	D007		$1.    
+@000145	D008		$1.    
+@000146	D00901		$2.  
+@000148	D010		$1.    
+@000149	D01101		$1.  
+@000150	D01201		$1.  
+@000151	D01301		$2.  
+@000153	D01302		$1.  
+@000154	D01303		$1.  
+@000155	D014		$1.    
+@000156	D015		$2.    
+@000158	E001		$1.    
+@000159	E002		$1.    
+@000160	E003		$1.    
+@000161	E004		$1.    
+@000162	E005		$1.    
+@000163	E006011		$1.  
+@000164	E008		$1.    
+@000165	E010010		$1.  
+@000166	E010011		2.  
+@000168	E010012		2.  
+@000170	E010013		2.  
+@000172	E011		$1.    
+@000173	E01201		$4.  
+@000177	E01401		$1.  
+@000178	E014011		$1.  
+@000179	E01402		$1.  
+@000180	E01403		$1.  
+@000181	E01501		$5.  
+@000186	E01601		$1.  
+@000187	E01602		8.  
+@000195	E01603		$1.  
+@000196	E01604		8.  
+@000204	E01605		$1.  
+@000205	E017		3.    
+@000208	E01801		$1.  
+@000209	E01802		8.  
+@000217	E01803		$1.  
+@000218	E01804		8.  
+@000226	E01805		$1.  
+@000227	E019		3.    
+@000230	E022		$1.    
+@000231	E023011		$2.  
+@000233	E024011		$2.  
+@000235	E02402		$1.  
+@000236	E024021		2.  
+@000238	E025		$1.    
+@000239	E02501		2.  
+@000241	E02502		2.  
+@000243	E02503		2.  
+@000245	E026		$1.    
+@000246	E02601		$1.  
+@000247	E02801		$1.  
+@000248	E02802		$1.  
+@000249	E02803		$1.  
+@000250	E02804		$1.  
+@000251	E02805		$1.  
+@000252	E02806		$1.  
+@000253	E030		$1.    
+@000254	E03101		$1.  
+@000255	E03102		$1.  
+@000256	E03103		$1.  
+@000257	E03104		$1.  
+@000258	E03105		$1.  
+@000259	E03106		$1.  
+@000260	E03107		$1.  
+@000261	E03108		$1.  
+@000262	E032		$1.    
+@000263	E033		3.    
+@000266	E027		$1.    
+@000267	F001011		$1.  
+@000268	F001021		8.  
+@000276	F007011		$1.  
+@000277	F007021		8.  
+@000285	F008011		$1.  
+@000286	F008021		$8.  
+@000294	VDF001		$1.  
+@000295	VDF00102	8.
+@000303	F016		$1.    
+@000304	I00101		$1.  
+@000305	I00102		$1.  
+@000306	I001021		2.  
+@000308	I00103		$1.  
+@000309	I001031		$2.  
+@000311	I005		$1.    
+@000312	I006		$1.    
+@000313	I004		$1.    
+@000314	I00401		$1.  
+@000315	I00402		$1.  
+@000316	I00403		$1.  
+@000317	I00404		$1.  
+@000318	I010010		$1.  
+@000319	I012		$1.    
+@000320	J001		$1.    
+@000321	J00101		$1.  
+@000322	J002		$1.    
+@000323	J003		2.    
+@000325	J00402		$2.  
+@000327	J00404		$1.  
+@000328	J005		$1.    
+@000329	J006		2.    
+@000331	J007		$1.    
+@000332	J00801		$1.  
+@000333	J009		$1.    
+@000334	J01002		$2.  
+@000336	J01101		$1.  
+@000337	J012		3.    
+@000340	J01301		$1.  
+@000341	J014		$1.    
+@000342	J01502		$2.  
+@000344	J01602		$1.  
+@000345	J01701		$1.  
+@000346	J01802		$1.  
+@000347	J019		2.    
+@000349	J02002		$2.  
+@000351	J021		$1.    
+@000352	J022010		$1.  
+@000353	J023		$1.    
+@000354	J024		$1.    
+@000355	J025		$1.    
+@000356	J026		$1.    
+@000357	J02702		$2.  
+@000359	J02901		$1.  
+@000360	J03001		$1.  
+@000361	J03102		$1.  
+@000362	J032		$1.    
+@000363	J03301		$1.  
+@000364	J034		$1.    
+@000365	J035		$1.    
+@000366	J03602		$2.  
+@000368	J037		$1.    
+@000369	J038		2.    
+@000371	J039		$1.    
+@000372	J04001		2.  
+@000374	J04002		2.  
+@000376	J041		$1.    
+@000377	J042		$1.    
+@000378	J043		$1.    
+@000379	J044		$1.    
+@000380	J046		$1.    
+@000381	J047		$1.    
+@000382	J048		$1.    
+@000383	J049		$1.    
+@000384	J051		$1.    
+@000385	J052		$1.    
+@000386	J05301		$1.  
+@000387	J05402		$1.  
+@000388	J05403		$1.  
+@000389	J05404		$1.  
+@000390	J05405		$1.  
+@000391	J05406		$1.  
+@000392	J05407		$1.  
+@000393	J05408		$1.  
+@000394	J05409		$1.  
+@000395	J054010		$1.  
+@000396	J056		$1.    
+@000397	J057		$1.    
+@000398	J060		$1.    
+@000399	M001		$1.    
+@000400	N001		$1.    
+@000401	N00101		$1.  
+@000402	N004		$1.    
+@000403	N005		$1.    
+@000404	N006		$1.    
+@000405	N00701		$1.  
+@000406	N008		$1.    
+@000407	N010		$1.    
+@000408	N011		$1.    
+@000409	N012		$1.    
+@000410	N013		$1.    
+@000411	N014		$1.    
+@000412	N015		$1.    
+@000413	N016		$1.    
+@000414	N017		$1.    
+@000415	N018		$1.    
+@000416	P00102		$1.  
+@000417	P00103		5.1  
+@000422	P00104		5.1  
+@000427	P00201		$1.  
+@000428	P00402		$1.  
+@000429	P00403		3.  
+@000432	P00404		3.  
+@000435	P00405		$1.  
+@000436	P005		$1.    
+@000437	P00601		$1.  
+@000438	P00602		$1.  
+@000439	P00603		$1.  
+@000440	P00604		$1.  
+@000441	P00605		$1.  
+@000442	P00607		$1.  
+@000443	P00608		$1.  
+@000444	P00609		$1.  
+@000445	P00610		$1.  
+@000446	P00611		$1.  
+@000447	P00612		$1.  
+@000448	P00613		$1.  
+@000449	P00614		$1.  
+@000450	P00615		$1.  
+@000451	P00616		$1.  
+@000452	P00617		$1.  
+@000453	P00618		$1.  
+@000454	P00619		$1.  
+@000455	P00620		$1.  
+@000456	P00621		$1.  
+@000457	P00622		$1.  
+@000458	P00623		$1.  
+@000459	P006		1.    
+@000460	P00901		1.  
+@000461	P01001		$1.  
+@000462	P01101		1.  
+@000463	P013		1.    
+@000464	P015		1.    
+@000465	P02001		1.  
+@000466	P02101		$1.  
+@000467	P01601		1.  
+@000468	P018		1.    
+@000469	P019		$1.    
+@000470	P02002		1.  
+@000471	P02102		$1.  
+@000472	P023		1.    
+@000473	P02401		$1.  
+@000474	P02501		1.  
+@000475	P02602		1.  
+@000476	P02601		$1.  
+@000477	P027		$1.    
+@000478	P02801		1.  
+@000479	P029		2.    
+@000481	P03201		$1.  
+@000482	P03202		2.  
+@000484	P03001		$1.  
+@000485	P03301		$1.  
+@000486	P03302		$1.  
+@000487	P03303		$1.  
+@000488	P034		$1.    
+@000489	P035		1.    
+@000490	P03701		2.  
+@000492	P03702		2.  
+@000494	P036		$2.    
+@000496	P038		$1.    
+@000497	P039		$1.    
+@000498	P03904		1.  
+@000499	P03905		2.  
+@000501	P03906		2.  
+@000503	P040		$1.    
+@000504	P04001		1.  
+@000505	P04101		2.  
+@000507	P04102		2.  
+@000509	P042		1.    
+@000510	P04301		2.  
+@000512	P04302		2.  
+@000514	P044		$1.    
+@000515	P04401		1.  
+@000516	P04405		2.  
+@000518	P04406		2.  
+@000520	P04501		$1.  
+@000521	P04502		$1.  
+@000522	P046		$1.    
+@000523	P04701		$1.  
+@000524	P04801		$1.  
+@000525	P04902		$1.  
+@000526	P050		$1.    
+@000527	P051		$1.    
+@000528	P052		$1.    
+@000529	P053		2.    
+@000531	P05401		$1.  
+@000532	P05402		2.  
+@000534	P05403		2.  
+@000536	P05404		$1.  
+@000537	P05405		2.  
+@000539	P05406		2.  
+@000541	P05407		$1.  
+@000542	P05408		2.  
+@000544	P05409		2.  
+@000546	P05410		$1.  
+@000547	P05411		2.  
+@000549	P05412		2.  
+@000551	P05413		$1.  
+@000552	P05414		2.  
+@000554	P05415		2.  
+@000556	P05416		$1.  
+@000557	P05417		2.  
+@000559	P05418		2.  
+@000561	P05419		$1.  
+@000562	P05421		2.  
+@000564	P05422		2.  
+@000566	P055		$1.    
+@000567	P058		$1.    
+@000568	P05801		2.  
+@000570	P05802		2.  
+@000572	P05901		2.  
+@000574	P05902		2.  
+@000576	P05903		2.  
+@000578	P05904		2.  
+@000580	P05905		$1.  
+@000581	P05906		$1.  
+@000582	P060		$1.    
+@000583	P06101		$1.  
+@000584	P06102		$1.  
+@000585	P06103		$1.  
+@000586	P06104		$1.  
+@000587	P06105		$1.  
+@000588	P06106		$1.  
+@000589	P06302		$2.  
+@000591	P067		$1.    
+@000592	P06701		$1.  
+@000593	P068		$1.    
+@000594	P069		$1.    
+@000595	P06901		$1.  
+@000596	P07004		$1.  
+@000597	P07005		$1.  
+@000598	P07006		$1.  
+@000599	P07007		$1.  
+@000600	P07101		$1.  
+@000601	P07201		$1.  
+@000602	Q00101		$1.  
+@000603	Q00201		$1.  
+@000604	Q00202		$1.  
+@000605	Q003		$2.    
+@000607	Q00401		$1.  
+@000608	Q00502		$2.  
+@000610	Q00503		$1.  
+@000611	Q00601		$1.  
+@000612	Q00602		$1.  
+@000613	Q00801		$1.  
+@000614	Q009		$1.    
+@000615	Q010		$1.    
+@000616	Q01101		$1.  
+@000617	Q01202		$2.  
+@000619	Q014		$1.    
+@000620	Q015		$1.    
+@000621	Q016		$1.    
+@000622	Q017		$1.    
+@000623	Q018010		$1.  
+@000624	Q018011		$1.  
+@000625	Q018012		$1.  
+@000626	Q018013		$1.  
+@000627	Q018014		$1.  
+@000628	Q018015		$1.  
+@000629	Q018016		$1.  
+@000630	Q018017		$1.  
+@000631	Q01910		$1.  
+@000632	Q019101		$1.  
+@000633	Q01911		$1.  
+@000634	Q019111		$1.  
+@000635	Q01912		$1.  
+@000636	Q019121		$1.  
+@000637	Q01913		$1.  
+@000638	Q019131		$1.  
+@000639	Q022		$1.    
+@000640	Q02301		$1.  
+@000641	Q026		$1.    
+@000642	Q02701		$1.  
+@000643	Q028		$1.    
+@000644	Q02901		$1.  
+@000645	Q03001		$1.  
+@000646	Q03002		$1.  
+@000647	Q031		2.    
+@000649	Q03201		$1.  
+@000650	Q03302		$2.  
+@000652	Q03303		$1.  
+@000653	Q03403		$1.  
+@000654	Q03404		$2.  
+@000656	Q03601		$1.  
+@000657	Q03701		$1.  
+@000658	Q03801		$1.  
+@000659	Q03802		$1.  
+@000660	Q03803		$1.  
+@000661	Q03804		$1.  
+@000662	Q03805		$1.  
+@000663	Q03806		$1.  
+@000664	Q03807		$1.  
+@000665	Q03901		$1.  
+@000666	Q04002		$2.  
+@000668	Q042		$1.    
+@000669	Q043		$1.    
+@000670	Q044		$1.    
+@000671	Q045		$1.    
+@000672	Q046011		$1.  
+@000673	Q046012		$1.  
+@000674	Q046013		$1.  
+@000675	Q046014		$1.  
+@000676	Q046015		$1.  
+@000677	Q046016		$1.  
+@000678	Q046017		$1.  
+@000679	Q046018		$1.  
+@000680	Q046019		$1.  
+@000681	Q046020		$1.  
+@000682	Q046021		$1.  
+@000683	Q04707		$1.  
+@000684	Q047071		$1.  
+@000685	Q04708		$1.  
+@000686	Q047081		$1.  
+@000687	Q04709		$1.  
+@000688	Q047091		$1.  
+@000689	Q04710		$1.  
+@000690	Q047101		$1.  
+@000691	Q04711		$1.  
+@000692	Q047111		$1.  
+@000693	Q050		$1.    
+@000694	Q05101		$1.  
+@000695	Q05301		$1.  
+@000696	Q05401		$1.  
+@000697	Q055011		$1.  
+@000698	Q055012		$1.  
+@000699	Q055013		$1.  
+@000700	Q055014		$1.  
+@000701	Q055015		$1.  
+@000702	Q055016		$1.  
+@000703	Q056		$1.    
+@000704	Q05701		$1.  
+@000705	Q058		$1.    
+@000706	Q05901		$1.  
+@000707	Q060		$1.    
+@000708	Q061		2.    
+@000710	Q06207		$1.  
+@000711	Q06208		$1.  
+@000712	Q06209		$1.  
+@000713	Q06210		$1.  
+@000714	Q06211		$1.  
+@000715	Q06212		$1.  
+@000716	Q06306		$1.  
+@000717	Q06307		$1.  
+@000718	Q06308		$1.  
+@000719	Q06309		$1.  
+@000720	Q06310		$1.  
+@000721	Q06311		$1.  
+@000722	Q064		2.    
+@000724	Q06506		$1.  
+@000725	Q06507		$1.  
+@000726	Q06508		$1.  
+@000727	Q06509		$1.  
+@000728	Q06601		$1.  
+@000729	Q067		$1.    
+@000730	Q068		$1.    
+@000731	Q070		2.    
+@000733	Q07208		$1.  
+@000734	Q07209		$1.  
+@000735	Q07210		$1.  
+@000736	Q07211		$1.  
+@000737	Q07212		$1.  
+@000738	Q07213		$1.  
+@000739	Q073		$1.    
+@000740	Q074		$1.    
+@000741	Q075		2.    
+@000743	Q076		$1.    
+@000744	Q07601		$1.  
+@000745	Q07704		$1.  
+@000746	Q07705		$1.  
+@000747	Q07706		$1.  
+@000748	Q07707		$1.  
+@000749	Q07708		$1.  
+@000750	Q07709		$1.  
+@000751	Q07710		$1.  
+@000752	Q07711		$1.  
+@000753	Q078		$1.    
+@000754	Q079		$1.    
+@000755	Q080		2.    
+@000757	Q08107		$1.  
+@000758	Q08108		$1.  
+@000759	Q08109		$1.  
+@000760	Q08110		$1.  
+@000761	Q08111		$1.  
+@000762	Q082		$1.    
+@000763	Q083		$1.    
+@000764	Q084		$1.    
+@000765	Q085		2.    
+@000767	Q08607		$1.  
+@000768	Q08608		$1.  
+@000769	Q08609		$1.  
+@000770	Q08610		$1.  
+@000771	Q08611		$1.  
+@000772	Q087		$1.    
+@000773	Q088		$1.    
+@000774	Q08901		2.  
+@000776	Q09007		$1.  
+@000777	Q09008		$1.  
+@000778	Q09009		$1.  
+@000779	Q09010		$1.  
+@000780	Q09011		$1.  
+@000781	Q091		$1.    
+@000782	Q092		$1.    
+@000783	Q09201		$1.  
+@000784	Q09202		$1.  
+@000785	Q09301		2.  
+@000787	Q094		$1.    
+@000788	Q09502		$2.  
+@000790	Q09605		$1.  
+@000791	Q09606		$1.  
+@000792	Q09607		$1.  
+@000793	Q098		$1.    
+@000794	Q100		$1.    
+@000795	Q10101		$1.  
+@000796	Q10202		$2.  
+@000798	Q104		$1.    
+@000799	Q105		$1.    
+@000800	Q106		$1.    
+@000801	Q10701		$1.  
+@000802	Q109		$1.    
+@000803	Q11006		$1.  
+@000804	Q11007		$1.  
+@000805	Q11008		$1.  
+@000806	Q11009		$1.  
+@000807	Q11010		$1.  
+@000808	Q111		2.    
+@000810	Q11201		$1.  
+@000811	Q11405		$1.  
+@000812	Q11406		$1.  
+@000813	Q11407		$1.  
+@000814	Q11408		$1.  
+@000815	Q115		$1.    
+@000816	Q11604		$1.  
+@000817	Q11605		$1.  
+@000818	Q11606		$1.  
+@000819	Q11607		$1.  
+@000820	Q11701		2.  
+@000822	Q11806		$1.  
+@000823	Q11807		$1.  
+@000824	Q11808		$1.  
+@000825	Q11809		$1.  
+@000826	Q119		$1.    
+@000827	Q120		$1.    
+@000828	Q12102		$1.  
+@000829	Q12103		$1.  
+@000830	Q12104		$1.  
+@000831	Q12105		$1.  
+@000832	Q12106		$1.  
+@000833	Q12107		$1.  
+@000834	Q12108		$1.  
+@000835	Q12109		$1.  
+@000836	Q121010		$1.  
+@000837	Q121011		$1.  
+@000838	Q121012		$1.  
+@000839	Q121013		$1.  
+@000840	Q121014		$1.  
+@000841	Q121015		$1.  
+@000842	Q121016		$1.  
+@000843	Q12201		2.  
+@000845	Q12301		$1.  
+@000846	Q124		$1.    
+@000847	Q125		2.    
+@000849	Q12501		$1.  
+@000850	Q12607		$1.  
+@000851	Q12608		$1.  
+@000852	Q12609		$1.  
+@000853	Q12610		$1.  
+@000854	Q127		$1.    
+@000855	Q128		$1.    
+@000856	Q132		$1.    
+@000857	Q133		2.    
+@000859	Q134		$1.    
+@000860	U00204		$1.  
+@000861	U00205		$1.  
+@000862	U00206		$1.  
+@000863	U00207		$1.  
+@000864	U00208		$1.  
+@000865	U00101		$1.  
+@000866	U00401		$1.  
+@000867	U005		$1.    
+@000868	U006		$1.    
+@000869	U00902		$2.  
+@000871	U01002		$1.  
+@000872	U014		$1.    
+@000873	U02001		$1.  
+@000874	U02101		$1.  
+@000875	U02302		$1.  
+@000876	U02303		2.  
+@000878	U02402		$1.  
+@000879	U02403		2.  
+@000881	U02501		$1.  
+@000882	W001		$1.    
+@000883	W00101		5.1  
+@000888	W00102		5.1  
+@000893	W00103		5.1  
+@000898	W00201		5.1  
+@000903	W00202		5.1  
+@000908	W00203		5.1  
+@000913	V0028		14.8    /*Peso do domicílio e dos moradores com correção de não entrevista sem calibração pela projeção de população*/
+@000927	V0029		14.8    /*Peso do morador selecionado sem calibração*/
+@000941	V0030		17.8    /*Peso do morador selecionado para antropometria sem calibração*/
+@000958	V00281		14.8	/*Peso do domicílio e dos moradores com correção de não entrevista com calibração pela projeção de população - Usado no cálculo de indicadores de domicílio e moradores*/
+@000972	V00291		14.8 	/*Peso do morador selecionado com calibração*/
+@000986	V00301		17.8 	/*Peso do morador selecionado para antropometria com calibração*/
+@001003	V00282		9.  	/*Projeção da população*/
+@001012	V00292		17.8 	/*Projeção da população para moradores selecionados*/
+@001029	V00302		17.8 	/*Projeção da população para moradores selecionados para antropometria*/
+@001046	V00283		$3.  	/*Domínio de projeção para domicílio e moradores*/
+@001049	V00293		$5.  	/*Domínio de projeção para morador selecionado*/
+@001054	V00303		$2.  	/*Domínio de projeção para morador selecionado para antropometria*/
+@001056	VDC001		2.  
+@001058	VDC003		2.  
+@001060	VDD004A		$1.  
+@001061	VDE001		$1.  
+@001062	VDE002		$1.  
+@001063	VDF002		8.  
+@001071	VDF003		8.  
+@001079	VDF004		$1.  
+@001080	VDDATA		$8.  	/*Data de geração do arquivo de microdados*/	
 ;
-run;
+RUN;

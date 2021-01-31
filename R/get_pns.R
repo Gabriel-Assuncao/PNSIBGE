@@ -4,7 +4,7 @@
 #' @param year The year of the data to be downloaded. Must be a number equal to 2013 or 2019. Vector not accepted.
 #' @param selected Logical value. If \code{TRUE}, the specific questionnaire for selected resident will be used. If \code{FALSE}, the basic questionnaire for household and residents will be used.
 #' @param anthropometry Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019.
-#' @param vars Vector of variable names to be kept for analysys. Default is to keep all variables.
+#' @param vars Vector of variable names to be kept for analysis. Default is to keep all variables.
 #' @param labels Logical value. If \code{TRUE}, categorical variables will presented as factors with labels corresponding to the survey's dictionary.
 #' @param deflator Logical value. If \code{TRUE}, deflator variable will be available for use in the microdata.
 #' @param design Logical value. If \code{TRUE}, will return an object of class \code{survey.design}. It is strongly recommended to keep this parameter as \code{TRUE} for further analysis. If \code{FALSE}, only the microdata will be returned.
@@ -58,16 +58,15 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
   inputfile <- paste0(savedir, "/", inputname)
   inputfile <- rownames(file.info(inputfile)[order(file.info(inputfile)$ctime),])[length(inputfile)]
   data_pns <- PNSIBGE::read_pns(microdata=microdatafile, input_txt=inputfile, vars=vars)
-  data_pns <- data_pns[data_pns$V0015 == "01",]
   if (anthropometry == TRUE & year == 2019) {
-    data_pns <- data_pns[data_pns$W001 == "1",]
+    data_pns <- data_pns[(data_pns$W001 == "1" & !is.na(data_pns$W001)),]
     data_pns <- data_pns[,!(names(data_pns) %in% c("V0028", "V00281", "V00282", "V00283", "V0029", "V00291", "V00292", "V00293"))]
     if (selected == TRUE) {
       warning("The definition of TRUE for the selected argument will be ignored, since the anthropometry argument was also defined as TRUE.")
     }
   }
   else if (selected == TRUE | (selected == FALSE & anthropometry == TRUE)) {
-    data_pns <- data_pns[data_pns$M001 == "1",]
+    data_pns <- data_pns[(data_pns$M001 == "1" & !is.na(data_pns$M001)),]
     data_pns <- data_pns[,!(names(data_pns) %in% c("V0028", "V00281", "V00282", "V00283", "V0030", "V00301", "V00302", "V00303"))]
     if (selected == FALSE) {
       warning("The selected argument was defined as true for the use of the anthropometry module, since the year is different from 2019.")
