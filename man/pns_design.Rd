@@ -30,14 +30,14 @@ pns.df <- pns_deflator(data_pns=pns.df, deflator.file=deflator.path)
 \donttest{
 pns.svy <- pns_design(data_pns=pns.df)
 # Calculating chronic diseases rate
-survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)}
+if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)}
 \donttest{
 # Downloading data
 pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars="J007",
                        labels=TRUE, deflator=TRUE, design=FALSE, savedir=tempdir())
 pns.svy2 <- pns_design(data_pns=pns.df2)
 # Calculating chronic diseases rate
-survey::svymean(x=~J007, design=pns.svy2, na.rm=TRUE)}
+if (!is.null(pns.svy2)) survey::svymean(x=~J007, design=pns.svy2, na.rm=TRUE)}
 }
 \seealso{
 \link[PNSIBGE]{get_pns} for downloading, labelling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variable to PNS microdata.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS example files.

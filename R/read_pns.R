@@ -1,6 +1,6 @@
 #' Read PNS microdata
 #' @description This function reads PNS microdata.
-#' @import survey readr dplyr magrittr RCurl utils timeDate readxl tibble
+#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
 #' @param microdata A text file containing microdata from PNS survey, available on official website: (select a microdata file, according to the appropriated year, microdata folder and then, inside, data) - \url{https://ftp.ibge.gov.br/PNS/}.
 #' @param input_txt A text file, related to the microdata, containing the input script for SAS, available on official website: (select the dictionary and input zip file, according to the appropriated year, microdata folder and then, inside, documentation) - \url{https://ftp.ibge.gov.br/PNS/}.
 #' @param vars Vector of variable names to be kept for analysis. Default is to keep all variables.
@@ -20,7 +20,7 @@ read_pns <- function(microdata, input_txt, vars = NULL) {
   if (!is.null(vars)) {
     if (any(!(vars %in% input$X2))) {
       missvar <- vars[!(vars %in% input$X2)]
-      warning(paste("Variables", paste(missvar, collapse=", "), "not present in microdata.\n"))
+      message(paste("Variables", paste(missvar, collapse=", "), "not present in microdata.\n"))
     }
     input %<>% subset(X2 %in% c("V0001", "UPA_PNS", "V0006_PNS", "V0015", "V0020", "V0024", "V0028", "V00282", "V00283", "V0029", "V00292", "V00293", "V0030", "V00302", "V00303", "C00301", "M001", "W001", vars))
   }

@@ -13,7 +13,7 @@ pns_example(path = NULL)
 A vector with names of all the available PNS example files or the path for specific requested PNS example file.
 }
 \description{
-This function provides the path of the PNS example files, loaded with this package.
+This function provides the path of the microdata from year 2019 of the PNS example files, loaded with this package.
 }
 \note{
 For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.

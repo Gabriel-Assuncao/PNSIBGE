@@ -1,6 +1,6 @@
 #' Label categorical variables from PNS microdata
 #' @description This function labels categorical variables from PNS microdata.
-#' @import survey readr dplyr magrittr RCurl utils timeDate readxl tibble
+#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
 #' @param data_pns A tibble of PNS microdata read with \code{read_pns} function.
 #' @param dictionary.file The dictionary file for selected survey available on official website: (select the dictionary and input zip file, according to the appropriated year, microdata folder and then, inside, documentation) - \url{https://ftp.ibge.gov.br/PNS/}.
 #' @return A tibble with the data provided from PNS survey and its categorical variables as factors with related labels.
@@ -89,7 +89,7 @@ pns_labeller <- function(data_pns, dictionary.file) {
     }
   }
   else {
-    warning("Sample design was already defined for microdata, so labelling categorical variables is not possible.")
+    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so labelling categorical variables is not possible.")
   }
   return(data_pns)
 }

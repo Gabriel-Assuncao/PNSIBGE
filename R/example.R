@@ -1,6 +1,6 @@
 #' Get the path of the PNS example files
-#' @description This function provides the path of the PNS example files, loaded with this package.
-#' @import survey readr dplyr magrittr RCurl utils timeDate readxl tibble
+#' @description This function provides the path of the microdata from year 2019 of the PNS example files, loaded with this package.
+#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
 #' @param path Name of file. If \code{NULL}, the PNS example files names will be listed.
 #' @return A vector with names of all the available PNS example files or the path for specific requested PNS example file.
 #' @note For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.

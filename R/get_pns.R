@@ -1,6 +1,6 @@
 #' Download, label, deflate and create survey design object for PNS microdata
 #' @description Core function of package. With this function only, the user can download a PNS microdata from a year and get a sample design object ready to use with \code{survey} package functions.
-#' @import survey readr dplyr magrittr RCurl utils timeDate readxl tibble
+#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
 #' @param year The year of the data to be downloaded. Must be a number equal to 2013 or 2019. Vector not accepted.
 #' @param selected Logical value. If \code{TRUE}, the specific questionnaire for selected resident will be used. If \code{FALSE}, the basic questionnaire for household and residents will be used.
 #' @param anthropometry Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019.
@@ -16,34 +16,44 @@
 #' \donttest{
 #' pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J00801","J009"),
 #'                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
-#' survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)
+#' if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)
 #' pns.svy2 <- get_pns(year=2019, selected=TRUE, anthropometry=FALSE, vars=c("N001","N00101"),
 #'                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
-#' survey::svymean(x=~N001, design=pns.svy2, na.rm=TRUE)
+#' if (!is.null(pns.svy2)) survey::svymean(x=~N001, design=pns.svy2, na.rm=TRUE)
 #' pns.svy3 <- get_pns(year=2019, selected=FALSE, anthropometry=TRUE, vars=c("W00101","W00201"),
 #'                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
-#' survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
+#' if (!is.null(pns.svy3)) survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
 #' @export
 
 get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
                      labels = TRUE, deflator = TRUE, design = TRUE, savedir = tempdir())
 {
   if (year != 2013 & year != 2019) {
-    stop("Year must be equal to 2013 or 2019.")
+    message("Year must be equal to 2013 or 2019.")
+    return(NULL)
   }
   if (!dir.exists(savedir)) {
     savedir <- tempdir()
-    warning(paste0("The directory provided does not exist, so the directory was set to '", tempdir()), "'.")
+    message(paste0("The directory provided does not exist, so the directory was set to '", tempdir()), "'.")
   }
   if (substr(savedir, nchar(savedir), nchar(savedir)) == "/" | substr(savedir, nchar(savedir), nchar(savedir)) == "\\") {
     savedir <- substr(savedir, 1, nchar(savedir)-1)
   }
   ftpdir <- paste0("ftp://ftp.ibge.gov.br/PNS/", year, "/Microdados/")
+  if (!projmgr::check_internet()) {
+    message("The internet connection is unavailable.")
+    return(NULL)
+  }
+  if (httr::http_error(GET(ftpdir, timeout(60)))) {
+    message("The microdata server is unavailable.")
+    return(NULL)
+  }
   ftpdata <- paste0(ftpdir, "Dados/")
   datayear <- unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(ftpdata, dirlistonly=TRUE)), "\n"))
   dataname <- datayear[which(startsWith(datayear, paste0("PNS_", year)))]
   if (length(dataname) == 0) {
-    stop("Data unavailable for selected year.")
+    message("Data unavailable for selected year.")
+    return(NULL)
   }
   docfiles <- unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(paste0(ftpdir, "Documentacao/"), dirlistonly=TRUE)), "\n"))
   inputzip <- docfiles[which(startsWith(docfiles, "Dicionario_e_input"))]
@@ -62,14 +72,14 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
     data_pns <- data_pns[(data_pns$W001 == "1" & !is.na(data_pns$W001)),]
     data_pns <- data_pns[,!(names(data_pns) %in% c("V0028", "V00281", "V00282", "V00283", "V0029", "V00291", "V00292", "V00293"))]
     if (selected == TRUE) {
-      warning("The definition of TRUE for the selected argument will be ignored, since the anthropometry argument was also defined as TRUE.")
+      message("The definition of TRUE for the selected argument will be ignored, since the anthropometry argument was also defined as TRUE.")
     }
   }
   else if (selected == TRUE | (selected == FALSE & anthropometry == TRUE)) {
     data_pns <- data_pns[(data_pns$M001 == "1" & !is.na(data_pns$M001)),]
     data_pns <- data_pns[,!(names(data_pns) %in% c("V0028", "V00281", "V00282", "V00283", "V0030", "V00301", "V00302", "V00303"))]
     if (selected == FALSE) {
-      warning("The selected argument was defined as true for the use of the anthropometry module, since the year is different from 2019.")
+      message("The selected argument was defined as true for the use of the anthropometry module, since the year is different from 2019.")
     }
   }
   else {
@@ -83,7 +93,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
       data_pns <- PNSIBGE::pns_labeller(data_pns=data_pns, dictionary.file=dicfile)
     }
     else {
-      warning("Labeller function is unavailable in package PNSIBGE.")
+      message("Labeller function is unavailable in package PNSIBGE.")
     }
   }
   if (deflator == TRUE) {
@@ -99,7 +109,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
       data_pns <- PNSIBGE::pns_deflator(data_pns=data_pns, deflator.file=deffile)
     }
     else {
-      warning("Deflator function is unavailable in package PNSIBGE.")
+      message("Deflator function is unavailable in package PNSIBGE.")
     }
   }
   if (design == TRUE) {
@@ -107,7 +117,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
       data_pns <- PNSIBGE::pns_design(data_pns=data_pns)
     }
     else {
-      warning("Sample design function is unavailable in package PNSIBGE.")
+      message("Sample design function is unavailable in package PNSIBGE.")
     }
   }
   return(data_pns)

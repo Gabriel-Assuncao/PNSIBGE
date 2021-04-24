@@ -1,6 +1,6 @@
 #' Create PNS survey object with its sample design
 #' @description This function creates PNS survey object with its sample design for analysis using \code{survey} package functions.
-#' @import survey readr dplyr magrittr RCurl utils timeDate readxl tibble
+#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
 #' @param data_pns A tibble of PNS microdata read with \code{read_pns} function.
 #' @return An object of class \code{survey.design} with the data from PNS and its sample design.
 #' @note For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.
@@ -17,14 +17,14 @@
 #' \donttest{
 #' pns.svy <- pns_design(data_pns=pns.df)
 #' # Calculating chronic diseases rate
-#' survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)}
+#' if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)}
 #' \donttest{
 #' # Downloading data
 #' pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars="J007",
 #'                        labels=TRUE, deflator=TRUE, design=FALSE, savedir=tempdir())
 #' pns.svy2 <- pns_design(data_pns=pns.df2)
 #' # Calculating chronic diseases rate
-#' survey::svymean(x=~J007, design=pns.svy2, na.rm=TRUE)}
+#' if (!is.null(pns.svy2)) survey::svymean(x=~J007, design=pns.svy2, na.rm=TRUE)}
 #' @export
 
 pns_design <- function(data_pns) {
@@ -53,12 +53,12 @@ pns_design <- function(data_pns) {
       }
     }
     else {
-      warning("Weight variables required for sample design are missing.")
+      message("Weight variables required for sample design are missing.")
       data_posterior <- data_pns
     }
   }
   else {
-    warning("Sample design was already defined for microdata, so applying another design is not possible.")
+    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so applying another design is not possible.")
     data_posterior <- data_pns
   }
   return(data_posterior)

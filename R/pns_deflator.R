@@ -1,6 +1,6 @@
 #' Add deflator variable to PNS microdata
 #' @description This function adds deflator variable to PNS microdata. For deflation of income variables, the documentation provided through the following address must be used: \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/PNSIBGE_Deflator.pdf}.
-#' @import survey readr dplyr magrittr RCurl utils timeDate readxl tibble
+#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
 #' @param data_pns A tibble of PNS microdata read with \code{read_pns} function.
 #' @param deflator.file The deflator file for selected survey available on official website: (select the deflator zip file) - \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/}.
 #' @return A tibble with the data provided from PNS survey and the deflator variable added for use.
@@ -38,11 +38,11 @@ pns_deflator <- function(data_pns, deflator.file) {
       data_pns <- tibble::as_tibble(data_pns)
     }
     else {
-      warning("Merge variables required for adding deflator variable are missing.")
+      message("Merge variables required for adding deflator variable are missing.")
     }
   }
   else {
-    warning("Sample design was already defined for microdata, so adding deflator variable is not possible.")
+    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so adding deflator variable is not possible.")
   }
   return(data_pns)
 }
