@@ -14,14 +14,17 @@
 #' @seealso \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variable to PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS example files.
 #' @examples
 #' \donttest{
-#' pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J00801","J009"),
+#' pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
 #'                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+#' # Calculating proportion of people diagnosed with chronic diseases
 #' if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)
 #' pns.svy2 <- get_pns(year=2019, selected=TRUE, anthropometry=FALSE, vars=c("N001","N00101"),
 #'                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+#' # Calculating proportion of people's self-rated health
 #' if (!is.null(pns.svy2)) survey::svymean(x=~N001, design=pns.svy2, na.rm=TRUE)
 #' pns.svy3 <- get_pns(year=2019, selected=FALSE, anthropometry=TRUE, vars=c("W00101","W00201"),
 #'                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+#' # Calculating the average weight of people
 #' if (!is.null(pns.svy3)) survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
 #' @export
 
@@ -39,28 +42,32 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
   if (substr(savedir, nchar(savedir), nchar(savedir)) == "/" | substr(savedir, nchar(savedir), nchar(savedir)) == "\\") {
     savedir <- substr(savedir, 1, nchar(savedir)-1)
   }
-  ftpdir <- paste0("ftp://ftp.ibge.gov.br/PNS/", year, "/Microdados/")
+  ftpdir <- paste0("https://ftp.ibge.gov.br/PNS/", year, "/Microdados/")
   if (!projmgr::check_internet()) {
     message("The internet connection is unavailable.")
     return(NULL)
   }
-  if (httr::http_error(GET(ftpdir, timeout(60)))) {
+  if (httr::http_error(httr::GET(ftpdir, httr::timeout(60)))) {
     message("The microdata server is unavailable.")
     return(NULL)
   }
+  options(timeout=max(300, getOption("timeout")))
   ftpdata <- paste0(ftpdir, "Dados/")
-  datayear <- unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(ftpdata, dirlistonly=TRUE)), "\n"))
+  datayear <- unlist(strsplit(unlist(strsplit(unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(ftpdata, dirlistonly=TRUE)), "\n")), "<a href=[[:punct:]]")), ".zip"))
   dataname <- datayear[which(startsWith(datayear, paste0("PNS_", year)))]
   if (length(dataname) == 0) {
     message("Data unavailable for selected year.")
     return(NULL)
   }
-  docfiles <- unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(paste0(ftpdir, "Documentacao/"), dirlistonly=TRUE)), "\n"))
-  inputzip <- docfiles[which(startsWith(docfiles, "Dicionario_e_input"))]
-  utils::download.file(url=paste0(ftpdir, "Documentacao/", inputzip), destfile=paste0(savedir, "/Dicionario_e_input.zip"), mode="wb")
-  utils::unzip(zipfile=paste0(savedir, "/Dicionario_e_input.zip"), exdir=savedir)
+  else {
+    dataname <- paste0(dataname, ".zip")
+  }
   utils::download.file(url=paste0(ftpdata, dataname), destfile=paste0(savedir, "/", dataname), mode="wb")
   utils::unzip(zipfile=paste0(savedir, "/", dataname), exdir=savedir)
+  docfiles <- unlist(strsplit(unlist(strsplit(unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(paste0(ftpdir, "Documentacao/"), dirlistonly=TRUE)), "\n")), "<a href=[[:punct:]]")), ".zip"))
+  inputzip <- paste0(docfiles[which(startsWith(docfiles, "Dicionario_e_input"))], ".zip")
+  utils::download.file(url=paste0(ftpdir, "Documentacao/", inputzip), destfile=paste0(savedir, "/Dicionario_e_input.zip"), mode="wb")
+  utils::unzip(zipfile=paste0(savedir, "/Dicionario_e_input.zip"), exdir=savedir)
   microdataname <- dir(savedir, pattern=paste0("^PNS_", year, ".*\\.txt$"), ignore.case=FALSE)
   microdatafile <- paste0(savedir, "/", microdataname)
   microdatafile <- rownames(file.info(microdatafile)[order(file.info(microdatafile)$ctime),])[length(microdatafile)]
@@ -98,9 +105,9 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
   }
   if (deflator == TRUE) {
     if (exists("pns_deflator", where="package:PNSIBGE", mode="function")) {
-      ftpdef <- ("ftp://ftp.ibge.gov.br/PNS/Documentacao_Geral/")
-      deffiles <- unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(ftpdef, dirlistonly=TRUE)), "\n"))
-      defzip <- deffiles[which(startsWith(deffiles, "Deflatores"))]
+      ftpdef <- ("https://ftp.ibge.gov.br/PNS/Documentacao_Geral/")
+      deffiles <- unlist(strsplit(unlist(strsplit(unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(ftpdef, dirlistonly=TRUE)), "\n")), "<a href=[[:punct:]]")), ".zip"))
+      defzip <- paste0(deffiles[which(startsWith(deffiles, "Deflatores"))], ".zip")
       utils::download.file(url=paste0(ftpdef, defzip), destfile=paste0(savedir, "/Deflatores.zip"), mode="wb")
       utils::unzip(zipfile=paste0(savedir, "/Deflatores.zip"), exdir=savedir)
       defname <- dir(savedir, pattern=paste0("^deflator_PNS.*\\.xls$"), ignore.case=FALSE)

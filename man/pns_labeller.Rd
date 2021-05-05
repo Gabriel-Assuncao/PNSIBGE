@@ -25,11 +25,11 @@ For more information, visit the survey official website <\url{https://www.ibge.g
 input_path <- pns_example(path="input_example.txt")
 data_path <- pns_example(path="exampledata.txt")
 dictionary.path <- pns_example(path="dictionaryexample.xls")
-pns.df <- read_pns(microdata=data_path, input_txt=input_path, vars="J007")
+pns.df <- read_pns(microdata=data_path, input_txt=input_path, vars=c("J007","J009"))
 pns.df <- pns_labeller(data_pns=pns.df, dictionary.file=dictionary.path)
 \donttest{
 # Downloading data
-pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars="J007",
+pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
                        labels=FALSE, deflator=FALSE, design=FALSE, savedir=tempdir())
 dictionary.path2 <- pns_example(path="dictionaryexample.xls")
 pns.df2 <- pns_labeller(data_pns=pns.df2, dictionary.file=dictionary.path2)}

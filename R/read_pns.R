@@ -10,7 +10,7 @@
 #' @examples
 #' input_path <- pns_example(path="input_example.txt")
 #' data_path <- pns_example(path="exampledata.txt")
-#' pns.df <- read_pns(microdata=data_path, input_txt=input_path, vars="J007")
+#' pns.df <- read_pns(microdata=data_path, input_txt=input_path, vars=c("J007","J009"))
 #' @export
 
 read_pns <- function(microdata, input_txt, vars = NULL) {

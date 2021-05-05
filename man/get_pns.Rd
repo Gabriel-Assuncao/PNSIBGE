@@ -43,14 +43,17 @@ For more information, visit the survey official website <\url{https://www.ibge.g
 }
 \examples{
 \donttest{
-pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J00801","J009"),
+pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+# Calculating proportion of people diagnosed with chronic diseases
 if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)
 pns.svy2 <- get_pns(year=2019, selected=TRUE, anthropometry=FALSE, vars=c("N001","N00101"),
                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+# Calculating proportion of people's self-rated health
 if (!is.null(pns.svy2)) survey::svymean(x=~N001, design=pns.svy2, na.rm=TRUE)
 pns.svy3 <- get_pns(year=2019, selected=FALSE, anthropometry=TRUE, vars=c("W00101","W00201"),
                        labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+# Calculating the average weight of people
 if (!is.null(pns.svy3)) survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
 }
 \seealso{
