@@ -59,6 +59,10 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
     message("Data unavailable for selected year.")
     return(NULL)
   }
+  else if (length(dataname) > 1) {
+    message("There is more than one file available for the requested microdata, please contact the package maintainer.")
+    return(NULL)
+  }
   else {
     dataname <- paste0(dataname, ".zip")
   }
