@@ -36,7 +36,7 @@ pns_labeller <- function(data_pns, dictionary.file) {
         codcurrent <- dictionary$X__3[i]
       }
     }
-    notlabel <- c("UPA_PNS", "UPA", "V0006_PNS", "V0020", "V0022", "V0024",
+    notlabel <- c("UPA_PNS", "UPA", "ID_DOMICILIO", "V0006_PNS", "V0020", "V0022", "V0024",
                   "V0028", "V00281", "V00282", "V00283",
                   "V0029", "V00291", "V00292", "V00293",
                   "V0030", "V00301", "V00302", "V00303",

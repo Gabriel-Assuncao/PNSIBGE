@@ -22,10 +22,11 @@ read_pns <- function(microdata, input_txt, vars = NULL) {
       missvar <- vars[!(vars %in% input$X2)]
       message(paste("Variables", paste(missvar, collapse=", "), "not present in microdata.\n"))
     }
-    input %<>% subset(X2 %in% c("V0001", "UPA_PNS", "V0006_PNS", "V0015", "V0020", "V0024", "V0028", "V00282", "V00283", "V0029", "V00292", "V00293", "V0030", "V00302", "V00303", "C00301", "M001", "W001", vars))
+    input %<>% subset(X2 %in% c("V0001", "UPA_PNS", "ID_DOMICILIO", "V0006_PNS", "V0015", "V0020", "V0024", "V0028", "V00281", "V00282", "V00283", "V0029", "V00291", "V00292", "V00293", "V0030", "V00301", "V00302", "V00303", "C00301", "M001", "W001", vars))
   }
   columns <- input %$% readr::fwf_positions(start, end, X2)
   data_pns <- suppressWarnings(readr::read_fwf(microdata, columns, col_types=paste0(input$type, collapse="")))
+  data_pns <- dplyr::mutate(data_pns, ID_DOMICILIO=paste0(data_pns$UPA_PNS, data_pns$V0006_PNS))
   data_pns <- data_pns[(data_pns$V0015 == "01" & !is.na(data_pns$V0015)),]
   return(data_pns)
 }

@@ -37,7 +37,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
   }
   if (!dir.exists(savedir)) {
     savedir <- tempdir()
-    message(paste0("The directory provided does not exist, so the directory was set to '", tempdir()), "'.")
+    message(paste0("The directory provided does not exist, so the directory was set to '", savedir), "'.")
   }
   if (substr(savedir, nchar(savedir), nchar(savedir)) == "/" | substr(savedir, nchar(savedir), nchar(savedir)) == "\\") {
     savedir <- substr(savedir, 1, nchar(savedir)-1)
@@ -67,6 +67,10 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
     dataname <- paste0(dataname, ".zip")
   }
   utils::download.file(url=paste0(ftpdata, dataname), destfile=paste0(savedir, "/", dataname), mode="wb")
+  if (suppressWarnings(class(try(utils::unzip(zipfile=paste0(savedir, "/", dataname), exdir=savedir), silent=TRUE)) == "try-error")) {
+    message("The directory defined to save the downloaded data is denied permission to overwrite the existing files, please clear or change this directory.")
+    return(NULL)
+  }
   utils::unzip(zipfile=paste0(savedir, "/", dataname), exdir=savedir)
   docfiles <- unlist(strsplit(unlist(strsplit(unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(paste0(ftpdir, "Documentacao/"), dirlistonly=TRUE)), "\n")), "<a href=[[:punct:]]")), ".zip"))
   inputzip <- paste0(docfiles[which(startsWith(docfiles, "Dicionario_e_input"))], ".zip")

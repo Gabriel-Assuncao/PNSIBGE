@@ -34,7 +34,7 @@ pns_deflator <- function(data_pns, deflator.file) {
         levels(deflator$V0001) <- levels(as.factor(data_pns$V0001))
       }
       data_pns <- base::merge(x=data_pns, y=deflator, by.x=c("V0020", "V0001"), by.y=c("V0020", "V0001"), all.x=TRUE, all.y=FALSE)
-      data_pns <- data_pns[order(data_pns$V0024, data_pns$UPA_PNS, data_pns$V0006_PNS, data_pns$C00301),]
+      data_pns <- data_pns[order(data_pns$V0024, data_pns$ID_DOMICILIO, data_pns$C00301),]
       data_pns <- tibble::as_tibble(data_pns)
     }
     else {

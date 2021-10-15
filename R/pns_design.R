@@ -29,26 +29,27 @@
 
 pns_design <- function(data_pns) {
   if (sum(class(data_pns) == "tbl_df") > 0) {
-    if (!(FALSE %in% (c("UPA_PNS", "V0024", "V0028", "V00282", "V00283") %in% names(data_pns))) |
-        !(FALSE %in% (c("UPA_PNS", "V0024", "V0029", "V00292", "V00293") %in% names(data_pns))) |
-        !(FALSE %in% (c("UPA_PNS", "V0024", "V0030", "V00302", "V00303") %in% names(data_pns)))) {
+    if (!(FALSE %in% (c("UPA_PNS", "ID_DOMICILIO", "V0024", "V0028", "V00281", "V00282", "V00283") %in% names(data_pns))) |
+        !(FALSE %in% (c("UPA_PNS", "ID_DOMICILIO", "V0024", "V0029", "V00291", "V00292", "V00293") %in% names(data_pns))) |
+        !(FALSE %in% (c("UPA_PNS", "ID_DOMICILIO", "V0024", "V0030", "V00301", "V00302", "V00303") %in% names(data_pns)))) {
       options(survey.lonely.psu="adjust")
-      if (!(FALSE %in% (c("UPA_PNS", "V0024", "V0028", "V00282", "V00283") %in% names(data_pns)))) {
+      options(survey.adjust.domain.lonely=TRUE)
+      if (!(FALSE %in% (c("UPA_PNS", "ID_DOMICILIO", "V0024", "V0028", "V00281", "V00282", "V00283") %in% names(data_pns)))) {
         data_prior <- survey::svydesign(ids=~UPA_PNS, strata=~V0024, data=data_pns, weights=~V0028, nest=TRUE)
         popc.types <- data.frame(V00283=as.character(unique(data_pns$V00283)), Freq=as.numeric(unique(data_pns$V00282)))
-        popc.types <- (popc.types[order(popc.types$V00283),])
+        popc.types <- popc.types[order(popc.types$V00283),]
         data_posterior <- survey::postStratify(design=data_prior, strata=~V00283, population=popc.types)
       }
-      else if (!(FALSE %in% (c("UPA_PNS", "V0024", "V0029", "V00292", "V00293") %in% names(data_pns)))) {
+      else if (!(FALSE %in% (c("UPA_PNS", "ID_DOMICILIO", "V0024", "V0029", "V00291", "V00292", "V00293") %in% names(data_pns)))) {
         data_prior <- survey::svydesign(ids=~UPA_PNS, strata=~V0024, data=data_pns, weights=~V0029, nest=TRUE)
         popc.types <- data.frame(V00293=as.character(unique(data_pns$V00293)), Freq=as.numeric(unique(data_pns$V00292)))
-        popc.types <- (popc.types[order(popc.types$V00293),])
+        popc.types <- popc.types[order(popc.types$V00293),]
         data_posterior <- survey::postStratify(design=data_prior, strata=~V00293, population=popc.types)
       }
       else {
         data_prior <- survey::svydesign(ids=~UPA_PNS, strata=~V0024, data=data_pns, weights=~V0030, nest=TRUE)
         popc.types <- data.frame(V00303=as.character(unique(data_pns$V00303)), Freq=as.numeric(unique(data_pns$V00302)))
-        popc.types <- (popc.types[order(popc.types$V00303),])
+        popc.types <- popc.types[order(popc.types$V00303),]
         data_posterior <- survey::postStratify(design=data_prior, strata=~V00303, population=popc.types)
       }
     }

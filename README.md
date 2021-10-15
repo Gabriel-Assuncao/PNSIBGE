@@ -1,4 +1,4 @@
-# PNSIBGE
+﻿# PNSIBGE
 ## Downloading, Reading and Analysing PNS Microdata
 
 This R package provides tools for download, read, and analyse the PNS	household survey from Brazilian Institute of Geography and Statistics.
@@ -9,4 +9,4 @@ Pacote em R com ferramentas para download, leitura e análise da Pesquisa Nacion
 
 [Manual em Português Disponível](https://rpubs.com/gabriel-assuncao-ibge/pns)
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/PNSIBGE)](https://cran.r-project.org/package=PNSIBGE) [![CRAN monthly downloads](http://cranlogs.r-pkg.org/badges/PNSIBGE "CRAN monthly downloads")](https://cran.r-project.org/package=PNSIBGE)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/PNSIBGE)](https://cran.r-project.org/package=PNSIBGE) [![CRAN monthly downloads](https://cranlogs.r-pkg.org/badges/PNSIBGE "CRAN monthly downloads")](https://cran.r-project.org/package=PNSIBGE)
