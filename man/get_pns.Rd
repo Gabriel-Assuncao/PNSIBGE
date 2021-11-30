@@ -26,14 +26,14 @@ get_pns(
 
 \item{labels}{Logical value. If \code{TRUE}, categorical variables will presented as factors with labels corresponding to the survey's dictionary.}
 
-\item{deflator}{Logical value. If \code{TRUE}, deflator variable will be available for use in the microdata.}
+\item{deflator}{Logical value. If \code{TRUE}, deflator variables will be available for use in the microdata.}
 
-\item{design}{Logical value. If \code{TRUE}, will return an object of class \code{survey.design}. It is strongly recommended to keep this parameter as \code{TRUE} for further analysis. If \code{FALSE}, only the microdata will be returned.}
+\item{design}{Logical value. If \code{TRUE}, will return an object of class \code{survey.design} or \code{svyrep.design}. It is strongly recommended to keep this parameter as \code{TRUE} for further analysis. If \code{FALSE}, only the microdata will be returned.}
 
 \item{savedir}{Directory to save the downloaded data. Default is to use a temporary directory.}
 }
 \value{
-An object of class \code{survey.design} with the data from PNS and its sample design, or a tibble with selected variables of the microdata, including the necessary survey design ones.
+An object of class \code{survey.design} or \code{svyrep.design} with the data from PNS and its sample design, or a tibble with selected variables of the microdata, including the necessary survey design ones.
 }
 \description{
 Core function of package. With this function only, the user can download a PNS microdata from a year and get a sample design object ready to use with \code{survey} package functions.
@@ -57,5 +57,5 @@ pns.svy3 <- get_pns(year=2019, selected=FALSE, anthropometry=TRUE, vars=c("W0010
 if (!is.null(pns.svy3)) survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
 }
 \seealso{
-\link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variable to PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS example files.
+\link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labeling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variables to PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS toy example files.
 }

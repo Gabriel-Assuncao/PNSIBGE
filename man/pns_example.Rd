@@ -2,18 +2,18 @@
 % Please edit documentation in R/example.R
 \name{pns_example}
 \alias{pns_example}
-\title{Get the path of the PNS example files}
+\title{Get the path of the PNS toy example files}
 \usage{
 pns_example(path = NULL)
 }
 \arguments{
-\item{path}{Name of file. If \code{NULL}, the PNS example files names will be listed.}
+\item{path}{Name of file. If \code{NULL}, the PNS toy example files names will be listed.}
 }
 \value{
-A vector with names of all the available PNS example files or the path for specific requested PNS example file.
+A vector with names of all the available PNS toy example files or the path for specific requested PNS toy example file.
 }
 \description{
-This function provides the path of the microdata from year 2019 of the PNS example files, loaded with this package.
+This function provides the path of the microdata from year 2019 of the PNS toy example files, loaded with this package.
 }
 \note{
 For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.
@@ -26,5 +26,5 @@ pns_example(path="dictionaryexample.xls")
 pns_example(path="deflatorexample.xls")
 }
 \seealso{
-\link[PNSIBGE]{get_pns} for downloading, labelling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variable to PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.
+\link[PNSIBGE]{get_pns} for downloading, labeling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labeling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variables to PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.
 }

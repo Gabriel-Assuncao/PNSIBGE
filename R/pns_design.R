@@ -1,10 +1,10 @@
 #' Create PNS survey object with its sample design
 #' @description This function creates PNS survey object with its sample design for analysis using \code{survey} package functions.
-#' @import survey readr dplyr magrittr projmgr httr RCurl utils timeDate readxl tibble
+#' @import dplyr httr magrittr projmgr RCurl readr readxl survey tibble timeDate utils
 #' @param data_pns A tibble of PNS microdata read with \code{read_pns} function.
-#' @return An object of class \code{survey.design} with the data from PNS and its sample design.
+#' @return An object of class \code{survey.design} or \code{svyrep.design} with the data from PNS and its sample design.
 #' @note For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.
-#' @seealso \link[PNSIBGE]{get_pns} for downloading, labelling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variable to PNS microdata.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS example files.
+#' @seealso \link[PNSIBGE]{get_pns} for downloading, labeling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labeling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variables to PNS microdata.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS toy example files.
 #' @examples
 #' # Using data read from disk
 #' input_path <- pns_example(path="input_example.txt")

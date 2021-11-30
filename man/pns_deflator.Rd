@@ -2,7 +2,7 @@
 % Please edit documentation in R/pns_deflator.R
 \name{pns_deflator}
 \alias{pns_deflator}
-\title{Add deflator variable to PNS microdata}
+\title{Add deflator variables to PNS microdata}
 \usage{
 pns_deflator(data_pns, deflator.file)
 }
@@ -12,10 +12,10 @@ pns_deflator(data_pns, deflator.file)
 \item{deflator.file}{The deflator file for selected survey available on official website: (select the deflator zip file) - \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/}.}
 }
 \value{
-A tibble with the data provided from PNS survey and the deflator variable added for use.
+A tibble with the data provided from PNS survey and the deflator variables added for use.
 }
 \description{
-This function adds deflator variable to PNS microdata. For deflation of income variables, the documentation provided through the following address must be used: \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/PNSIBGE_Deflator.pdf}.
+This function adds deflator variables to PNS microdata. For deflation of income variables, the documentation provided through the following address must be used: \url{https://ftp.ibge.gov.br/PNS/Documentacao_Geral/PNSIBGE_Deflator.pdf}.
 }
 \note{
 For more information, visit the survey official website <\url{https://www.ibge.gov.br/estatisticas/sociais/saude/9160-pesquisa-nacional-de-saude.html?=&t=o-que-e}> and consult the other functions of this package, described below.
@@ -37,5 +37,5 @@ deflator.path2 <- pns_example(path="deflatorexample.xls")
 pns.df2 <- pns_deflator(data_pns=pns.df2, deflator.file=deflator.path2)}
 }
 \seealso{
-\link[PNSIBGE]{get_pns} for downloading, labelling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS example files.
+\link[PNSIBGE]{get_pns} for downloading, labeling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labeling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_design} for creating PNS survey design object.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS toy example files.
 }

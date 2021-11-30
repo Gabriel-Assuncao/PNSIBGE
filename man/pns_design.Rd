@@ -10,7 +10,7 @@ pns_design(data_pns)
 \item{data_pns}{A tibble of PNS microdata read with \code{read_pns} function.}
 }
 \value{
-An object of class \code{survey.design} with the data from PNS and its sample design.
+An object of class \code{survey.design} or \code{svyrep.design} with the data from PNS and its sample design.
 }
 \description{
 This function creates PNS survey object with its sample design for analysis using \code{survey} package functions.
@@ -40,5 +40,5 @@ pns.svy2 <- pns_design(data_pns=pns.df2)
 if (!is.null(pns.svy2)) survey::svymean(x=~J007, design=pns.svy2, na.rm=TRUE)}
 }
 \seealso{
-\link[PNSIBGE]{get_pns} for downloading, labelling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labelling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variable to PNS microdata.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS example files.
+\link[PNSIBGE]{get_pns} for downloading, labeling, deflating and creating survey design object for PNS microdata.\cr \link[PNSIBGE]{read_pns} for reading PNS microdata.\cr \link[PNSIBGE]{pns_labeller} for labeling categorical variables from PNS microdata.\cr \link[PNSIBGE]{pns_deflator} for adding deflator variables to PNS microdata.\cr \link[PNSIBGE]{pns_example} for getting the path of the PNS toy example files.
 }

@@ -1,7 +1,7 @@
-﻿# PNSIBGE
-## Downloading, Reading and Analysing PNS Microdata
+# PNSIBGE
+## Downloading, Reading and Analyzing PNS Microdata
 
-This R package provides tools for download, read, and analyse the PNS	household survey from Brazilian Institute of Geography and Statistics.
+This R package provides tools for download, read, and analyze the PNS	household survey from Brazilian Institute of Geography and Statistics.
 
 ## Baixe, Leia e Analise os Microdados da PNS
 
