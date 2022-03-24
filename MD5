@@ -1,10 +1,10 @@
-09603596e2355d1cc9216dd8ffc8d167 *DESCRIPTION
+09c1d700874ae04d98443df9967e356c *DESCRIPTION
 0e60945450611daf64d3dd1753f773a3 *NAMESPACE
 b4c18be1a5e20b8e7de9796322b066fe *R/example.R
 910af0f8419bc4467ec408f4ed235cb9 *R/get_pns.R
 c77803f6f2f8146864ab51599443fa43 *R/pns_deflator.R
 0a48b11fbf4e96b9aedc5ff21e238b78 *R/pns_design.R
-09a3fbf5babb2156755e44cf6e01e86f *R/pns_labeller.R
+3c0a0c6bd1fd988c8774da5b923a0820 *R/pns_labeller.R
 79c23133a09edb6bd82ff6a327d3bacf *R/read_pns.R
 af208297b9e31b30a5a61bfcbaa1fb18 *README.md
 e1581ed83835707b1bce53c028a4fbe3 *inst/extdata/deflatorexample.xls
