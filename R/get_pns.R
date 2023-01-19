@@ -1,9 +1,9 @@
 #' Download, label, deflate and create survey design object for PNS microdata
 #' @description Core function of package. With this function only, the user can download a PNS microdata from a year and get a sample design object ready to use with \code{survey} package functions.
 #' @import dplyr httr magrittr projmgr RCurl readr readxl survey tibble timeDate utils
-#' @param year The year of the data to be downloaded. Must be a number equal to 2013 or 2019. Vector not accepted.
+#' @param year The year of the data to be downloaded. Must be a number equal to 2013 or 2019 or 2024. Vector not accepted.
 #' @param selected Logical value. If \code{TRUE}, the specific questionnaire for selected resident will be used. If \code{FALSE}, the basic questionnaire for household and residents will be used.
-#' @param anthropometry Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019.
+#' @param anthropometry Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019 or 2024.
 #' @param vars Vector of variable names to be kept for analysis. Default is to keep all variables.
 #' @param labels Logical value. If \code{TRUE}, categorical variables will presented as factors with labels corresponding to the survey's dictionary.
 #' @param deflator Logical value. If \code{TRUE}, deflator variables will be available for use in the microdata.
@@ -31,8 +31,8 @@
 get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
                      labels = TRUE, deflator = TRUE, design = TRUE, savedir = tempdir())
 {
-  if (year != 2013 & year != 2019) {
-    message("Year must be equal to 2013 or 2019.")
+  if (year != 2013 & year != 2019 & year != 2024) {
+    message("Year must be equal to 2013 or 2019 or 2024.")
     return(NULL)
   }
   if (!dir.exists(savedir)) {
@@ -51,7 +51,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
     message("The microdata server is unavailable.")
     return(NULL)
   }
-  options(timeout=max(300, getOption("timeout")))
+  options(timeout=max(600, getOption("timeout")))
   ftpdata <- paste0(ftpdir, "Dados/")
   datayear <- unlist(strsplit(unlist(strsplit(unlist(strsplit(gsub("\r\n", "\n", RCurl::getURL(ftpdata, dirlistonly=TRUE)), "\n")), "<a href=[[:punct:]]")), ".zip"))
   dataname <- datayear[which(startsWith(datayear, paste0("PNS_", year)))]
@@ -78,23 +78,23 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
   utils::unzip(zipfile=paste0(savedir, "/Dicionario_e_input.zip"), exdir=savedir)
   microdataname <- dir(savedir, pattern=paste0("^PNS_", year, ".*\\.txt$"), ignore.case=FALSE)
   microdatafile <- paste0(savedir, "/", microdataname)
-  microdatafile <- rownames(file.info(microdatafile)[order(file.info(microdatafile)$ctime),])[length(microdatafile)]
+  microdatafile <- rownames(file.info(microdatafile)[order(file.info(microdatafile)$mtime),])[length(microdatafile)]
   inputname <- dir(savedir, pattern=paste0("^input_PNS_", year, ".*\\.txt$"), ignore.case=FALSE)
   inputfile <- paste0(savedir, "/", inputname)
-  inputfile <- rownames(file.info(inputfile)[order(file.info(inputfile)$ctime),])[length(inputfile)]
+  inputfile <- rownames(file.info(inputfile)[order(file.info(inputfile)$mtime),])[length(inputfile)]
   data_pns <- PNSIBGE::read_pns(microdata=microdatafile, input_txt=inputfile, vars=vars)
-  if (anthropometry == TRUE & year == 2019) {
+  if (anthropometry == TRUE & (year == 2019 | year == 2024) & c("W001") %in% names(data_pns)) {
     data_pns <- data_pns[(data_pns$W001 == "1" & !is.na(data_pns$W001)),]
     data_pns <- data_pns[,!(names(data_pns) %in% c("V0028", "V00281", "V00282", "V00283", "V0029", "V00291", "V00292", "V00293"))]
     if (selected == TRUE) {
       message("The definition of TRUE for the selected argument will be ignored, since the anthropometry argument was also defined as TRUE.")
     }
   }
-  else if (selected == TRUE | (selected == FALSE & anthropometry == TRUE)) {
+  else if (selected == TRUE | (selected == FALSE & anthropometry == TRUE) & c("M001") %in% names(data_pns)) {
     data_pns <- data_pns[(data_pns$M001 == "1" & !is.na(data_pns$M001)),]
     data_pns <- data_pns[,!(names(data_pns) %in% c("V0028", "V00281", "V00282", "V00283", "V0030", "V00301", "V00302", "V00303"))]
     if (selected == FALSE) {
-      message("The selected argument was defined as true for the use of the anthropometry module, since the year is different from 2019.")
+      message("The selected argument was defined as true for the use of the anthropometry module, since the year is different from 2019 or 2024.")
     }
   }
   else {
@@ -104,7 +104,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
     if (exists("pns_labeller", where="package:PNSIBGE", mode="function")) {
       dicname <- dir(savedir, pattern=paste0("^dicionario_PNS_microdados_", year, ".*\\.xls$"), ignore.case=FALSE)
       dicfile <- paste0(savedir, "/", dicname)
-      dicfile <- rownames(file.info(dicfile)[order(file.info(dicfile)$ctime),])[length(dicfile)]
+      dicfile <- rownames(file.info(dicfile)[order(file.info(dicfile)$mtime),])[length(dicfile)]
       data_pns <- PNSIBGE::pns_labeller(data_pns=data_pns, dictionary.file=dicfile)
     }
     else {
@@ -120,7 +120,7 @@ get_pns <- function(year, selected = FALSE, anthropometry = FALSE, vars = NULL,
       utils::unzip(zipfile=paste0(savedir, "/Deflatores.zip"), exdir=savedir)
       defname <- dir(savedir, pattern=paste0("^deflator_PNS.*\\.xls$"), ignore.case=FALSE)
       deffile <- paste0(savedir, "/", defname)
-      deffile <- rownames(file.info(deffile)[order(file.info(deffile)$ctime),])[length(deffile)]
+      deffile <- rownames(file.info(deffile)[order(file.info(deffile)$mtime),])[length(deffile)]
       data_pns <- PNSIBGE::pns_deflator(data_pns=data_pns, deflator.file=deffile)
     }
     else {

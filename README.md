@@ -9,4 +9,6 @@ Pacote em R com ferramentas para download, leitura e análise da Pesquisa Nacion
 
 [Manual em Português Disponível](https://rpubs.com/gabriel-assuncao-ibge/pns)
 
+[Pacotes das Pesquisas do SIPD](https://cran.r-project.org/package=SIPDIBGE)
+
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/PNSIBGE)](https://cran.r-project.org/package=PNSIBGE) [![CRAN monthly downloads](https://cranlogs.r-pkg.org/badges/PNSIBGE "CRAN monthly downloads")](https://cran.r-project.org/package=PNSIBGE)

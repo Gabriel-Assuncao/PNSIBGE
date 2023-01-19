@@ -16,11 +16,11 @@ get_pns(
 )
 }
 \arguments{
-\item{year}{The year of the data to be downloaded. Must be a number equal to 2013 or 2019. Vector not accepted.}
+\item{year}{The year of the data to be downloaded. Must be a number equal to 2013 or 2019 or 2024. Vector not accepted.}
 
 \item{selected}{Logical value. If \code{TRUE}, the specific questionnaire for selected resident will be used. If \code{FALSE}, the basic questionnaire for household and residents will be used.}
 
-\item{anthropometry}{Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019.}
+\item{anthropometry}{Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019 or 2024.}
 
 \item{vars}{Vector of variable names to be kept for analysis. Default is to keep all variables.}
 
