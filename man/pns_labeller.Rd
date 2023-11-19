@@ -30,7 +30,7 @@ pns.df <- pns_labeller(data_pns=pns.df, dictionary.file=dictionary.path)
 \donttest{
 # Downloading data
 pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
-                       labels=FALSE, deflator=FALSE, design=FALSE, savedir=tempdir())
+                       labels=FALSE, deflator=FALSE, design=FALSE, reload=TRUE, savedir=tempdir())
 dictionary.path2 <- pns_example(path="dictionaryexample.xls")
 pns.df2 <- pns_labeller(data_pns=pns.df2, dictionary.file=dictionary.path2)}
 }

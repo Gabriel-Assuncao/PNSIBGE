@@ -12,15 +12,16 @@ get_pns(
   labels = TRUE,
   deflator = TRUE,
   design = TRUE,
+  reload = TRUE,
   savedir = tempdir()
 )
 }
 \arguments{
-\item{year}{The year of the data to be downloaded. Must be a number equal to 2013 or 2019 or 2024. Vector not accepted.}
+\item{year}{The year of the data to be downloaded. Must be a number equal to 2013 or 2019. Vector not accepted.}
 
 \item{selected}{Logical value. If \code{TRUE}, the specific questionnaire for selected resident will be used. If \code{FALSE}, the basic questionnaire for household and residents will be used.}
 
-\item{anthropometry}{Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019 or 2024.}
+\item{anthropometry}{Logical value. If \code{TRUE}, the specific questionnaire for the anthropometry module of the selected resident will be used. If \code{FALSE}, the questionnaire defined by the \code{selected} argument of this function will be used. This argument will be used only if \code{year} is equal to 2019.}
 
 \item{vars}{Vector of variable names to be kept for analysis. Default is to keep all variables.}
 
@@ -29,6 +30,8 @@ get_pns(
 \item{deflator}{Logical value. If \code{TRUE}, deflator variables will be available for use in the microdata.}
 
 \item{design}{Logical value. If \code{TRUE}, will return an object of class \code{survey.design} or \code{svyrep.design}. It is strongly recommended to keep this parameter as \code{TRUE} for further analysis. If \code{FALSE}, only the microdata will be returned.}
+
+\item{reload}{Logical value. If \code{TRUE}, will re-download the files even if they already exist in the save directory. If \code{FALSE}, will be checked if the files already exist in the save directory and the download will not be performed repeatedly.}
 
 \item{savedir}{Directory to save the downloaded data. Default is to use a temporary directory.}
 }
@@ -44,15 +47,15 @@ For more information, visit the survey official website <\url{https://www.ibge.g
 \examples{
 \donttest{
 pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
-                       labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+                       labels=TRUE, deflator=TRUE, design=TRUE, reload=TRUE, savedir=tempdir())
 # Calculating proportion of people diagnosed with chronic diseases
 if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)
 pns.svy2 <- get_pns(year=2019, selected=TRUE, anthropometry=FALSE, vars=c("N001","N00101"),
-                       labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+                       labels=TRUE, deflator=TRUE, design=TRUE, reload=TRUE, savedir=tempdir())
 # Calculating proportion of people's self-rated health
 if (!is.null(pns.svy2)) survey::svymean(x=~N001, design=pns.svy2, na.rm=TRUE)
 pns.svy3 <- get_pns(year=2019, selected=FALSE, anthropometry=TRUE, vars=c("W00101","W00201"),
-                       labels=TRUE, deflator=TRUE, design=TRUE, savedir=tempdir())
+                       labels=TRUE, deflator=TRUE, design=TRUE, reload=TRUE, savedir=tempdir())
 # Calculating the average weight of people
 if (!is.null(pns.svy3)) survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
 }
