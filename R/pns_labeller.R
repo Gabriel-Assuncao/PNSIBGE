@@ -16,7 +16,8 @@
 #' \donttest{
 #' # Downloading data
 #' pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
-#'                        labels=FALSE, deflator=FALSE, design=FALSE, reload=TRUE, savedir=tempdir())
+#'                        labels=FALSE, deflator=FALSE, design=FALSE,
+#'                        reload=TRUE, curlopts=list(), savedir=tempdir())
 #' dictionary.path2 <- pns_example(path="dictionaryexample.xls")
 #' pns.df2 <- pns_labeller(data_pns=pns.df2, dictionary.file=dictionary.path2)}
 #' @export
@@ -89,7 +90,7 @@ pns_labeller <- function(data_pns, dictionary.file) {
     }
   }
   else {
-    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so labeling categorical variables is not possible.")
+    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so labeling categorical variables is not possible.\n")
   }
   return(data_pns)
 }

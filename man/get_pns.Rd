@@ -13,6 +13,7 @@ get_pns(
   deflator = TRUE,
   design = TRUE,
   reload = TRUE,
+  curlopts = list(),
   savedir = tempdir()
 )
 }
@@ -31,7 +32,9 @@ get_pns(
 
 \item{design}{Logical value. If \code{TRUE}, will return an object of class \code{survey.design} or \code{svyrep.design}. It is strongly recommended to keep this parameter as \code{TRUE} for further analysis. If \code{FALSE}, only the microdata will be returned.}
 
-\item{reload}{Logical value. If \code{TRUE}, will re-download the files even if they already exist in the save directory. If \code{FALSE}, will be checked if the files already exist in the save directory and the download will not be performed repeatedly.}
+\item{reload}{Logical value. If \code{TRUE}, will re-download the files even if they already exist in the save directory. If \code{FALSE}, will be checked if the files already exist in the save directory and the download will not be performed repeatedly, be careful with coinciding names of microdata files.}
+
+\item{curlopts}{A named list object identifying the curl options for the handle when using functions from \code{RCurl} package.}
 
 \item{savedir}{Directory to save the downloaded data. Default is to use a temporary directory.}
 }
@@ -47,15 +50,18 @@ For more information, visit the survey official website <\url{https://www.ibge.g
 \examples{
 \donttest{
 pns.svy <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
-                       labels=TRUE, deflator=TRUE, design=TRUE, reload=TRUE, savedir=tempdir())
+                       labels=TRUE, deflator=TRUE, design=TRUE,
+                       reload=TRUE, curlopts=list(), savedir=tempdir())
 # Calculating proportion of people diagnosed with chronic diseases
 if (!is.null(pns.svy)) survey::svymean(x=~J007, design=pns.svy, na.rm=TRUE)
 pns.svy2 <- get_pns(year=2019, selected=TRUE, anthropometry=FALSE, vars=c("N001","N00101"),
-                       labels=TRUE, deflator=TRUE, design=TRUE, reload=TRUE, savedir=tempdir())
+                       labels=TRUE, deflator=TRUE, design=TRUE,
+                       reload=TRUE, curlopts=list(), savedir=tempdir())
 # Calculating proportion of people's self-rated health
 if (!is.null(pns.svy2)) survey::svymean(x=~N001, design=pns.svy2, na.rm=TRUE)
 pns.svy3 <- get_pns(year=2019, selected=FALSE, anthropometry=TRUE, vars=c("W00101","W00201"),
-                       labels=TRUE, deflator=TRUE, design=TRUE, reload=TRUE, savedir=tempdir())
+                       labels=TRUE, deflator=TRUE, design=TRUE,
+                       reload=TRUE, curlopts=list(), savedir=tempdir())
 # Calculating the average weight of people
 if (!is.null(pns.svy3)) survey::svymean(x=~W00101, design=pns.svy3, na.rm=TRUE)}
 }

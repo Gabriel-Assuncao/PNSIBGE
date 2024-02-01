@@ -18,7 +18,8 @@
 #' \donttest{
 #' # Downloading data
 #' pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
-#'                        labels=TRUE, deflator=FALSE, design=FALSE, reload=TRUE, savedir=tempdir())
+#'                        labels=TRUE, deflator=FALSE, design=FALSE,
+#'                        reload=TRUE, curlopts=list(), savedir=tempdir())
 #' deflator.path2 <- pns_example(path="deflatorexample.xls")
 #' pns.df2 <- pns_deflator(data_pns=pns.df2, deflator.file=deflator.path2)}
 #' @export
@@ -43,11 +44,11 @@ pns_deflator <- function(data_pns, deflator.file) {
       data_pns <- tibble::as_tibble(data_pns)
     }
     else {
-      message("Merge variables required for adding deflator variables are missing.")
+      message("Merge variables required for adding deflator variables are missing.\n")
     }
   }
   else {
-    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so adding deflator variables is not possible.")
+    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so adding deflator variables is not possible.\n")
   }
   return(data_pns)
 }

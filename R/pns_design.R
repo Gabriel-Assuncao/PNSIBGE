@@ -21,7 +21,8 @@
 #' \donttest{
 #' # Downloading data
 #' pns.df2 <- get_pns(year=2019, selected=FALSE, anthropometry=FALSE, vars=c("J007","J009"),
-#'                        labels=TRUE, deflator=TRUE, design=FALSE, reload=TRUE, savedir=tempdir())
+#'                        labels=TRUE, deflator=TRUE, design=FALSE,
+#'                        reload=TRUE, curlopts=list(), savedir=tempdir())
 #' pns.svy2 <- pns_design(data_pns=pns.df2)
 #' # Calculating proportion of people diagnosed with chronic diseases
 #' if (!is.null(pns.svy2)) survey::svymean(x=~J007, design=pns.svy2, na.rm=TRUE)}
@@ -54,12 +55,12 @@ pns_design <- function(data_pns) {
       }
     }
     else {
-      message("Weight variables required for sample design are missing.")
+      message("Weight variables required for sample design are missing.\n")
       data_posterior <- data_pns
     }
   }
   else {
-    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so applying another design is not possible.")
+    message("The microdata object is not of the tibble class or sample design was already defined for microdata, so applying another design is not possible.\n")
     data_posterior <- data_pns
   }
   return(data_posterior)
